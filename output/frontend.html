@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Napoléon AI - Crawler Dashboard</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- vis-network -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --napoleon-primary: #2c3e50;
+            --napoleon-secondary: #34495e;
+            --napoleon-accent: #e74c3c;
+            --napoleon-success: #27ae60;
+            --napoleon-warning: #f39c12;
+            --napoleon-info: #3498db;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #2c3e50 0%, #1a252f 100%);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin: 4px 8px;
+            transition: all 0.3s;
+        }
+        
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+        }
+        
+        .sidebar .nav-link i {
+            width: 24px;
+        }
+        
+        .brand-logo {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .brand-logo h4 {
+            color: #fff;
+            margin: 0;
+            font-weight: 700;
+        }
+        
+        .brand-logo span {
+            color: #e74c3c;
+        }
+        
+        .stat-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .stat-card .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .stat-card .number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        .stat-card .label {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .data-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        
+        .data-card .card-header {
+            background: #fff;
+            border-bottom: 2px solid #f8f9fa;
+            padding: 15px 20px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .data-card .card-body {
+            padding: 0;
+        }
+        
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+            border-bottom: 2px solid #dee2e6;
+            padding: 12px 15px;
+        }
+        
+        .table td {
+            padding: 12px 15px;
+            vertical-align: middle;
+        }
+        
+        .badge-entity {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin: 2px;
+            display: inline-block;
+        }
+        
+        .badge-info {
+            background: #3498db;
+        }
+        
+        .badge-warning {
+            background: #f39c12;
+        }
+        
+        .badge-success {
+            background: #27ae60;
+        }
+        
+        .badge-danger {
+            background: #e74c3c;
+        }
+        
+        .network-container {
+            height: 500px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .entity-tag {
+            display: inline-flex;
+            align-items: center;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 20px;
+            padding: 4px 12px;
+            margin: 3px;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        
+        .entity-tag:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }
+        
+        .entity-tag .type {
+            background: #667eea;
+            color: #fff;
+            border-radius: 10px;
+            padding: 1px 6px;
+            font-size: 10px;
+            margin-right: 6px;
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-box input {
+            padding-left: 40px;
+            border-radius: 25px;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+        }
+        
+        .tab-content {
+            padding: 20px 0;
+        }
+        
+        .url-cell {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .score-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .score-bar .fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .score-high { background: #27ae60; }
+        .score-medium { background: #f39c12; }
+        .score-low { background: #e74c3c; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        .animate-delay-1 { animation-delay: 0.1s; }
+        .animate-delay-2 { animation-delay: 0.2s; }
+        .animate-delay-3 { animation-delay: 0.3s; }
+        .animate-delay-4 { animation-delay: 0.4s; }
+        
+        .loading-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+        
+        .json-viewer {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 400px;
+            overflow: auto;
+        }
+        
+        .json-key { color: #e06c75; }
+        .json-string { color: #98c379; }
+        .json-number { color: #d19a66; }
+        .json-boolean { color: #56b6c2; }
+        .json-null { color: #c678dd; }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse show" id="sidebar">
+                <div class="position-sticky pt-3">
+                    <div class="brand-logo">
+                        <h4><i class="fas fa-robot"></i> Napoléon<span>AI</span></h4>
+                        <small class="text-white-50">Web Crawler Dashboard</small>
+                    </div>
+                    <ul class="nav flex-column mt-4">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" data-view="dashboard">
+                                <i class="fas fa-th-large"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-view="pages">
+                                <i class="fas fa-file-alt"></i> Crawled Pages
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-view="entities">
+                                <i class="fas fa-database"></i> Entities
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-view="security">
+                                <i class="fas fa-shield-alt"></i> Security
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-view="graph">
+                                <i class="fas fa-project-diagram"></i> Graph View
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-view="entity-graph">
+                                <i class="fas fa-share-alt"></i> Entity Graph
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-view="data">
+                                <i class="fas fa-code"></i> Raw Data
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+                <!-- Dashboard View -->
+                <div id="dashboard-view" class="view">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2"><i class="fas fa-th-large me-2"></i>Dashboard</h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" class="form-control" placeholder="Search pages..." id="global-search">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Row -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="stat-card animate-fade animate-delay-1">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="number" id="stat-pages">0</div>
+                                        <div class="label">Pages Crawled</div>
+                                    </div>
+                                    <div class="icon" style="background: rgba(52, 152, 219, 0.1); color: #3498db;">
+                                        <i class="fas fa-file-alt"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card animate-fade animate-delay-2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="number" id="stat-entities">0</div>
+                                        <div class="label">Entities Extracted</div>
+                                    </div>
+                                    <div class="icon" style="background: rgba(102, 126, 234, 0.1); color: #667eea;">
+                                        <i class="fas fa-database"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card animate-fade animate-delay-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="number" id="stat-emails">0</div>
+                                        <div class="label">Emails Found</div>
+                                    </div>
+                                    <div class="icon" style="background: rgba(39, 174, 96, 0.1); color: #27ae60;">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card animate-fade animate-delay-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="number" id="stat-score">0%</div>
+                                        <div class="label">Avg Relevance</div>
+                                    </div>
+                                    <div class="icon" style="background: rgba(243, 156, 18, 0.1); color: #f39c12;">
+                                        <i class="fas fa-percentage"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Row -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="data-card">
+                                <div class="card-header">
+                                    <i class="fas fa-chart-pie me-2"></i>Top Entity Types
+                                </div>
+                                <div class="card-body p-3" id="entity-chart">
+                                    <canvas id="entityChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="data-card">
+                                <div class="card-header">
+                                    <i class="fas fa-globe me-2"></i>Crawl Overview
+                                </div>
+                                <div class="card-body p-3">
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>Unique URLs</span>
+                                            <strong id="unique-urls">0</strong>
+                                        </div>
+                                        <div class="progress" style="height: 8px;">
+                                            <div class="progress-bar bg-info" style="width: 100%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>Pages with Emails</span>
+                                            <strong id="pages-with-emails">0</strong>
+                                        </div>
+                                        <div class="progress" style="height: 8px;">
+                                            <div class="progress-bar bg-success" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>Pages with Forms</span>
+                                            <strong id="pages-with-forms">0</strong>
+                                        </div>
+                                        <div class="progress" style="height: 8px;">
+                                            <div class="progress-bar bg-warning" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-0">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>AI Analyzed</span>
+                                            <strong id="ai-analyzed">0</strong>
+                                        </div>
+                                        <div class="progress" style="height: 8px;">
+                                            <div class="progress-bar bg-purple" style="background: #667eea; width: 0%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Pages -->
+                    <div class="data-card">
+                        <div class="card-header">
+                            <i class="fas fa-clock me-2"></i>Recently Crawled Pages
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="recent-pages-table">
+                                    <thead>
+                                        <tr>
+                                            <th>URL</th>
+                                            <th>Title</th>
+                                            <th>Relevance</th>
+                                            <th>Entities</th>
+                                            <th>Fetched</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pages View -->
+                <div id="pages-view" class="view" style="display: none;">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2"><i class="fas fa-file-alt me-2"></i>Crawled Pages</h1>
+                    </div>
+                    <div class="data-card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="all-pages-table">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" class="form-check-input"></th>
+                                            <th>URL</th>
+                                            <th>Title</th>
+                                            <th>Description</th>
+                                            <th>Relevance</th>
+                                            <th>Emails</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Entities View -->
+                <div id="entities-view" class="view" style="display: none;">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2"><i class="fas fa-database me-2"></i>Extracted Entities</h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <select class="form-select" id="entity-type-filter" style="width: auto;">
+                                <option value="">All Types</option>
+                                <option value="PERSON">PERSON</option>
+                                <option value="ORG">ORG</option>
+                                <option value="GPE">GPE</option>
+                                <option value="DATE">DATE</option>
+                                <option value="LOC">LOC</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="data-card">
+                        <div class="card-body p-3">
+                            <div id="entities-container"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security View -->
+                <div id="security-view" class="view" style="display: none;">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2"><i class="fas fa-shield-alt me-2"></i>Security Analysis</h1>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="stat-card">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="number" id="sec-total">0</div>
+                                        <div class="label">Total Findings</div>
+                                    </div>
+                                    <div class="icon" style="background: rgba(52, 152, 219, 0.1); color: #3498db;">
+                                        <i class="fas fa-search"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-card">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="number" id="sec-tech">0</div>
+                                        <div class="label">Technologies</div>
+                                    </div>
+                                    <div class="icon" style="background: rgba(243, 156, 18, 0.1); color: #f39c12;">
+                                        <i class="fas fa-microchip"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-card">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="number" id="sec-osint">0</div>
+                                        <div class="label">OSINT Findings</div>
+                                    </div>
+                                    <div class="icon" style="background: rgba(39, 174, 96, 0.1); color: #27ae60;">
+                                        <i class="fas fa-user-secret"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="data-card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-list me-2"></i>Security Findings
+                        </div>
+                        <div class="card-body" id="security-findings">
+                            <div class="loading-spinner">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="data-card">
+                        <div class="card-header">
+                            <i class="fas fa-robot me-2"></i>Detected Technologies
+                        </div>
+                        <div class="card-body" id="tech-list">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Graph View -->
+                <div id="graph-view" class="view" style="display: none;">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2"><i class="fas fa-project-diagram me-2"></i>Graph Visualization</h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <button class="btn btn-sm btn-outline-secondary me-2" id="fit-graph">
+                                <i class="fas fa-compress-arrows-alt"></i> Fit
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary" id="random-graph">
+                                <i class="fas fa-random"></i> Randomize
+                            </button>
+                        </div>
+                    </div>
+                    <div class="data-card">
+                        <div class="network-container" id="network"></div>
+                    </div>
+                </div>
+
+                <!-- Entity Graph View -->
+                <div id="entity-graph-view" class="view" style="display: none;">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2"><i class="fas fa-share-alt me-2"></i>Entity Graph</h1>
+                    </div>
+                    <div class="data-card">
+                        <div class="network-container" id="entity-network"></div>
+                    </div>
+                </div>
+
+                <!-- Raw Data View -->
+                <div id="data-view" class="view" style="display: none;">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2"><i class="fas fa-code me-2"></i>Raw Data</h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <select class="form-select me-2" id="data-source" style="width: auto;">
+                                <option value="crawled">crawled.json</option>
+                                <option value="research">research_report.json</option>
+                                <option value="security">security_report.json</option>
+                            </select>
+                            <button class="btn btn-sm btn-primary" id="copy-data">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+                    <div class="data-card">
+                        <div class="card-body">
+                            <pre class="json-viewer" id="json-output"></pre>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Page Detail Modal -->
+    <div class="modal fade" id="pageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-title">Page Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tab-overview">Overview</a></li>
+                        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-text">Text Content</a></li>
+                        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-entities">Entities</a></li>
+                        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-meta">Metadata</a></li>
+                    </ul>
+                    <div class="tab-content p-3">
+                        <div class="tab-pane fade show active" id="tab-overview">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">URL</label>
+                                    <p class="fw-bold" id="detail-url"></p>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">Title</label>
+                                    <p id="detail-title"></p>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">Meta Description</label>
+                                    <p id="detail-desc"></p>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">Relevance Score</label>
+                                    <div class="score-bar"><div class="fill" id="detail-score"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-text">
+                            <pre class="bg-light p-3 rounded" id="detail-text" style="white-space: pre-wrap; max-height: 400px; overflow-y: auto;"></pre>
+                        </div>
+                        <div class="tab-pane fade" id="tab-entities">
+                            <div id="detail-entities"></div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-meta">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">Headings</label>
+                                    <ul id="detail-headings"></ul>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">Emails Found</label>
+                                    <ul id="detail-emails"></ul>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">Scripts</label>
+                                    <ul id="detail-scripts"></ul>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">Forms</label>
+                                    <ul id="detail-forms"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- vis-network -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <script>
+        // Global data storage
+        let crawledData = [];
+        let securityData = null;
+        let network = null;
+        let entityChart = null;
+
+        // Load data from JSON files
+        async function loadData() {
+            try {
+                // Load crawled.json
+                const crawledResponse = await fetch('crawled.json');
+                if (crawledResponse.ok) {
+                    crawledData = await crawledResponse.json();
+                }
+                
+                // Load security report
+                const securityResponse = await fetch('security_report.json');
+                if (securityResponse.ok) {
+                    securityData = await securityResponse.json();
+                }
+
+                // Process data
+                processData();
+            } catch (e) {
+                console.error('Error loading data:', e);
+                // Try alternative path
+                try {
+                    const altCrawled = await fetch('../output/crawled.json');
+                    if (altCrawled.ok) {
+                        crawledData = await altCrawled.json();
+                    }
+                    const altSecurity = await fetch('../output/security_report.json');
+                    if (altSecurity.ok) {
+                        securityData = await altSecurity.json();
+                    }
+                    processData();
+                } catch (e2) {
+                    console.error('Error loading from alternative path:', e2);
+                }
+            }
+        }
+
+        function processData() {
+            updateDashboard();
+            updatePagesTable();
+            updateEntitiesView();
+            updateSecurityView();
+            initGraph();
+            updateRawData();
+        }
+
+        // Update Dashboard
+        function updateDashboard() {
+            const uniqueUrls = [...new Set(crawledData.map(p => p.url))];
+            const pagesWithEmails = crawledData.filter(p => p.emails && p.emails.length > 0).length;
+            const pagesWithForms = crawledData.filter(p => p.forms && p.forms.length > 0).length;
+            const aiAnalyzed = crawledData.filter(p => p.entities && p.entities.length > 0).length;
+            
+            // Calculate entities
+            let allEntities = [];
+            crawledData.forEach(p => {
+                if (p.entities) allEntities = [...allEntities, ...p.entities];
+            });
+            const uniqueEntities = [...new Set(allEntities.map(e => e.text))];
+            
+            // Calculate emails
+            let allEmails = [];
+            crawledData.forEach(p => {
+                if (p.emails) allEmails = [...allEmails, ...p.emails];
+            });
+            const uniqueEmails = [...new Set(allEmails)];
+            
+            // Calculate avg relevance
+            const totalScore = crawledData.reduce((sum, p) => sum + (p.relevance_score || 0), 0);
+            const avgScore = crawledData.length > 0 ? Math.round((totalScore / crawledData.length) * 100) : 0;
+
+            // Update stats
+            document.getElementById('stat-pages').textContent = crawledData.length;
+            document.getElementById('stat-entities').textContent = uniqueEntities.length;
+            document.getElementById('stat-emails').textContent = uniqueEmails.length;
+            document.getElementById('stat-score').textContent = avgScore + '%';
+
+            // Update overview
+            document.getElementById('unique-urls').textContent = uniqueUrls.length;
+            document.getElementById('pages-with-emails').textContent = pagesWithEmails;
+            document.getElementById('pages-with-forms').textContent = pagesWithForms;
+            document.getElementById('ai-analyzed').textContent = aiAnalyzed;
+
+            // Update progress bars
+            const emailPercent = crawledData.length > 0 ? (pagesWithEmails / crawledData.length) * 100 : 0;
+            const formPercent = crawledData.length > 0 ? (pagesWithForms / crawledData.length) * 100 : 0;
+            const aiPercent = crawledData.length > 0 ? (aiAnalyzed / crawledData.length) * 100 : 0;
+            
+            document.querySelector('#pages-with-emails').parentElement.nextElementSibling.querySelector('.progress-bar').style.width = emailPercent + '%';
+            document.querySelector('#pages-with-forms').parentElement.nextElementSibling.querySelector('.progress-bar').style.width = formPercent + '%';
+            document.querySelector('#ai-analyzed').parentElement.nextElementSibling.querySelector('.progress-bar').style.width = aiPercent + '%';
+
+            // Update recent pages table
+            const recentTable = document.querySelector('#recent-pages-table tbody');
+            recentTable.innerHTML = '';
+            
+            crawledData.slice(0, 5).forEach(page => {
+                const row = recentTable.insertRow();
+                const score = page.relevance_score || 0;
+                const scoreClass = score > 0.5 ? 'score-high' : score > 0.2 ? 'score-medium' : 'score-low';
+                
+                row.innerHTML = `
+                    <td class="url-cell" title="${page.url}"><a href="${page.url}" target="_blank">${page.url}</a></td>
+                    <td>${page.title || 'N/A'}</td>
+                    <td>
+                        <div class="score-bar">
+                            <div class="fill ${scoreClass}" style="width: ${score * 100}%"></div>
+                        </div>
+                        <small>${Math.round(score * 100)}%</small>
+                    </td>
+                    <td><span class="badge badge-info">${page.entities ? page.entities.length : 0}</span></td>
+                    <td>${new Date(page.fetched_at * 1000).toLocaleString()}</td>
+                `;
+            });
+
+            // Entity type chart
+            updateEntityChart(allEntities);
+        }
+
+        function updateEntityChart(entities) {
+            const typeCounts = {};
+            entities.forEach(e => {
+                typeCounts[e.type] = (typeCounts[e.type] || 0) + 1;
+            });
+
+            const ctx = document.getElementById('entityChart');
+            if (!ctx) return;
+
+            if (entityChart) entityChart.destroy();
+
+            entityChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(typeCounts),
+                    datasets: [{
+                        data: Object.values(typeCounts),
+                        backgroundColor: [
+                            '#667eea', '#27ae60', '#f39c12', '#e74c3c', '#3498db', '#9b59b6', '#1abc9c'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update Pages Table
+        function updatePagesTable() {
+            const tbody = document.querySelector('#all-pages-table tbody');
+            tbody.innerHTML = '';
+
+            crawledData.forEach((page, index) => {
+                const row = tbody.insertRow();
+                const score = page.relevance_score || 0;
+                const scoreClass = score > 0.5 ? 'score-high' : score > 0.2 ? 'score-medium' : 'score-low';
+
+                row.innerHTML = `
+                    <td><input type="checkbox" class="form-check-input"></td>
+                    <td class="url-cell" title="${page.url}">${page.url}</td>
+                    <td>${page.title || 'N/A'}</td>
+                    <td>${(page.meta_description || '').substring(0, 50)}...</td>
+                    <td>
+                        <div class="score-bar" style="width: 60px;">
+                            <div class="fill ${scoreClass}" style="width: ${score * 100}%"></div>
+                        </div>
+                        <small>${Math.round(score * 100)}%</small>
+                    </td>
+                    <td>${page.emails ? page.emails.length : 0}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary" onclick="showPageDetail(${index})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                `;
+            });
+        }
+
+        // Show page detail modal
+        function showPageDetail(index) {
+            const page = crawledData[index];
+            const modal = new bootstrap.Modal(document.getElementById('pageModal'));
+            
+            document.getElementById('modal-title').textContent = page.title || 'Page Details';
+            document.getElementById('detail-url').textContent = page.url;
+            document.getElementById('detail-title').textContent = page.title || 'N/A';
+            document.getElementById('detail-desc').textContent = page.meta_description || 'N/A';
+            
+            const score = page.relevance_score || 0;
+            const scoreEl = document.getElementById('detail-score');
+            scoreEl.style.width = (score * 100) + '%';
+            scoreEl.className = 'fill ' + (score > 0.5 ? 'score-high' : score > 0.2 ? 'score-medium' : 'score-low');
+
+            document.getElementById('detail-text').textContent = page.text || 'N/A';
+
+            // Entities
+            const entitiesContainer = document.getElementById('detail-entities');
+            if (page.entities && page.entities.length > 0) {
+                entitiesContainer.innerHTML = page.entities.slice(0, 50).map(e => 
+                    `<span class="entity-tag"><span class="type">${e.type}</span>${e.text}</span>`
+                ).join('');
+                if (page.entities.length > 50) {
+                    entitiesContainer.innerHTML += `<span class="text-muted">... and ${page.entities.length - 50} more</span>`;
+                }
+            } else {
+                entitiesContainer.innerHTML = '<p class="text-muted">No entities extracted</p>';
+            }
+
+            // Headings
+            const headingsList = document.getElementById('detail-headings');
+            headingsList.innerHTML = page.headings ? page.headings.map(h => `<li>${h}</li>`).join('') : '<li>N/A</li>';
+
+            // Emails
+            const emailsList = document.getElementById('detail-emails');
+            emailsList.innerHTML = page.emails && page.emails.length > 0 
+                ? page.emails.map(e => `<li><a href="mailto:${e}">${e}</a></li>`).join('') 
+                : '<li>None found</li>';
+
+            // Scripts
+            const scriptsList = document.getElementById('detail-scripts');
+            scriptsList.innerHTML = page.scripts && page.scripts.length > 0 
+                ? page.scripts.map(s => `<li><code>${s}</code></li>`).join('') 
+                : '<li>None found</li>';
+
+            // Forms
+            const formsList = document.getElementById('detail-forms');
+            formsList.innerHTML = page.forms && page.forms.length > 0 
+                ? page.forms.map(f => `<li>Action: ${f.action}, Method: ${f.method}</li>`).join('') 
+                : '<li>None found</li>';
+
+            modal.show();
+        }
+
+        // Update Entities View
+        function updateEntitiesView() {
+            const container = document.getElementById('entities-container');
+            let allEntities = [];
+            
+            crawledData.forEach(p => {
+                if (p.entities) {
+                    p.entities.forEach(e => {
+                        e.sourceUrl = p.url;
+                        allEntities.push(e);
+                    });
+                }
+            });
+
+            // Group by type
+            const groupedEntities = {};
+            allEntities.forEach(e => {
+                if (!groupedEntities[e.type]) groupedEntities[e.type] = [];
+                if (!groupedEntities[e.type].find(ex => ex.text === e.text)) {
+                    groupedEntities[e.type].push(e);
+                }
+            });
+
+            let html = '';
+            Object.keys(groupedEntities).sort().forEach(type => {
+                html += `<h5 class="mt-3 mb-2"><span class="badge bg-primary">${type}</span> <small class="text-muted">(${groupedEntities[type].length} unique)</small></h5>`;
+                html += '<div class="mb-2">';
+                groupedEntities[type].slice(0, 100).forEach(e => {
+                    html += `<span class="entity-tag" title="From: ${e.sourceUrl}">${e.text}</span>`;
+                });
+                if (groupedEntities[type].length > 100) {
+                    html += `<span class="text-muted">... and ${groupedEntities[type].length - 100} more</span>`;
+                }
+                html += '</div>';
+            });
+
+            container.innerHTML = html || '<p class="text-muted">No entities found</p>';
+        }
+
+        // Update Security View
+        function updateSecurityView() {
+            if (!securityData) {
+                document.getElementById('security-findings').innerHTML = '<p class="text-muted">No security data available</p>';
+                return;
+            }
+
+            const summary = securityData.summary || {};
+            document.getElementById('sec-total').textContent = summary.total_findings || 0;
+            document.getElementById('sec-tech').textContent = summary.technologies ? summary.technologies.length : 0;
+            
+            const osintCount = (securityData.findings || []).filter(f => f.type === 'osint').length;
+            document.getElementById('sec-osint').textContent = osintCount;
+
+            // Findings
+            const findingsContainer = document.getElementById('security-findings');
+            if (securityData.findings && securityData.findings.length > 0) {
+                let findingsHtml = '';
+                securityData.findings.forEach(finding => {
+                    const severityClass = finding.severity === 'high' ? 'danger' : finding.severity === 'medium' ? 'warning' : 'info';
+                    findingsHtml += `
+                        <div class="alert alert-${severityClass} mb-2">
+                            <h6 class="alert-heading"><i class="fas fa-${finding.type === 'technology' ? 'microchip' : 'user-secret'} me-2"></i>${finding.title}</h6>
+                            <p class="mb-0">${finding.description}</p>
+                            <small class="text-muted">${finding.url}</small>
+                        </div>
+                    `;
+                });
+                findingsContainer.innerHTML = findingsHtml;
+            } else {
+                findingsHtml = '<p class="text-muted">No security findings</p>';
+            }
+
+            // Technologies
+            const techContainer = document.getElementById('tech-list');
+            if (summary.technologies && summary.technologies.length > 0) {
+                techContainer.innerHTML = summary.technologies.map(tech => 
+                    `<span class="badge bg-secondary me-2 mb-2" style="font-size: 14px; padding: 8px 12px;">${tech}</span>`
+                ).join('');
+            } else {
+                techContainer.innerHTML = '<p class="text-muted">No technologies detected</p>';
+            }
+        }
+
+        // Initialize Graph
+        async function initGraph() {
+            const container = document.getElementById('network');
+            const entityContainer = document.getElementById('entity-network');
+            
+            // Try to load network_graph.html
+            try {
+                const networkResponse = await fetch('network_graph.html');
+                if (networkResponse.ok) {
+                    const networkHtml = await networkResponse.text();
+                    container.innerHTML = networkHtml;
+                } else {
+                    // Fallback to dynamic graph if file doesn't exist
+                    initDynamicGraph(container);
+                }
+            } catch (e) {
+                console.log('network_graph.html not found, using dynamic graph');
+                initDynamicGraph(container);
+            }
+            
+            // Try to load entity_graph.html
+            try {
+                const entityResponse = await fetch('entity_graph.html');
+                if (entityResponse.ok) {
+                    const entityHtml = await entityResponse.text();
+                    entityContainer.innerHTML = entityHtml;
+                } else {
+                    // Fallback message
+                    entityContainer.innerHTML = '<div class="p-3 text-muted">Entity graph not available. Run crawl with --generate-graph flag.</div>';
+                }
+            } catch (e) {
+                console.log('entity_graph.html not found');
+                entityContainer.innerHTML = '<div class="p-3 text-muted">Entity graph not available. Run crawl with --generate-graph flag.</div>';
+            }
+        }
+        
+        // Fallback dynamic graph initialization
+        function initDynamicGraph(container) {
+            if (!container) return;
+
+            const nodes = new vis.DataSet();
+            const edges = new vis.DataSet();
+
+            // Add nodes for each unique URL
+            const uniqueUrls = [...new Set(crawledData.map(p => p.url))];
+            uniqueUrls.forEach((url, index) => {
+                nodes.add({
+                    id: url,
+                    label: url.replace(/^https?:\/\//, '').substring(0, 30),
+                    title: url,
+                    value: crawledData.filter(p => p.url === url).length,
+                    color: getColorForUrl(url)
+                });
+            });
+
+            // Add edges (self-loops for now, can be expanded)
+            uniqueUrls.forEach(url => {
+                edges.add({
+                    from: url,
+                    to: url,
+                    arrows: 'to',
+                    width: 1
+                });
+            });
+
+            const options = {
+                nodes: {
+                    shape: 'dot',
+                    scaling: {
+                        min: 10,
+                        max: 30
+                    },
+                    font: {
+                        size: 14,
+                        face: 'Segoe UI'
+                    }
+                },
+                edges: {
+                    color: { inherit: true },
+                    smooth: {
+                        type: 'dynamic'
+                    }
+                },
+                physics: {
+                    stabilization: {
+                        iterations: 1000
+                    },
+                    barnesHut: {
+                        gravitationalConstant: -2000,
+                        centralGravity: 0.3,
+                        springLength: 150
+                    }
+                },
+                interaction: {
+                    dragNodes: true,
+                    hideEdgesOnDrag: false,
+                    hideNodesOnDrag: false,
+                    tooltipDelay: 200
+                }
+            };
+
+            network = new vis.Network(container, { nodes, edges }, options);
+
+            // Add button handlers
+            document.getElementById('fit-graph')?.addEventListener('click', () => {
+                network.fit({ animation: true });
+            });
+
+            document.getElementById('random-graph')?.addEventListener('click', () => {
+                network.releaseMotion();
+            });
+        }
+
+        function getColorForUrl(url) {
+            const colors = ['#97c2fc', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf'];
+            let hash = 0;
+            for (let i = 0; i < url.length; i++) {
+                hash = url.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            return colors[Math.abs(hash) % colors.length];
+        }
+
+        // Update Raw Data View
+        function updateRawData() {
+            const source = document.getElementById('data-source').value;
+            let data;
+            
+            switch(source) {
+                case 'crawled':
+                    data = crawledData;
+                    break;
+                case 'research':
+                    // Try to load research report
+                    fetch('research_report.json')
+                        .then(res => res.ok ? res.json() : null)
+                        .then(report => {
+                            document.getElementById('json-output').innerHTML = syntaxHighlight(report);
+                        });
+                    return;
+                case 'security':
+                    data = securityData;
+                    break;
+            }
+
+            document.getElementById('json-output').innerHTML = syntaxHighlight(data);
+        }
+
+        function syntaxHighlight(json) {
+            if (typeof json !== 'string') {
+                json = JSON.stringify(json, null, 2);
+            }
+            json = json.replace(/&/g, '&amp;').replace(/</g, '<').replace(/>/g, '>');
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                let cls = 'json-number';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'json-key';
+                    } else {
+                        cls = 'json-string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'json-boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'json-null';
+                }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
+
+        // Navigation
+        document.querySelectorAll('.nav-link[data-view]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Update active nav
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+
+                // Show correct view
+                document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
+                const viewId = link.getAttribute('data-view') + '-view';
+                document.getElementById(viewId).style.display = 'block';
+
+                // Resize graph if needed
+                if (link.getAttribute('data-view') === 'graph' && network) {
+                    setTimeout(() => network.fit(), 100);
+                }
+            });
+        });
+
+        // Data source change
+        document.getElementById('data-source')?.addEventListener('change', updateRawData);
+
+        // Copy data button
+        document.getElementById('copy-data')?.addEventListener('click', () => {
+            const source = document.getElementById('data-source').value;
+            let data;
+            switch(source) {
+                case 'crawled':
+                case 'basic':
+                    data = JSON.stringify(crawledData, null, 2);
+                    break;
+                case 'security':
+                    data = JSON.stringify(securityData, null, 2);
+                    break;
+            }
+            navigator.clipboard.writeText(data).then(() => {
+                alert('Data copied to clipboard!');
+            });
+        });
+
+        // Entity type filter
+        document.getElementById('entity-type-filter')?.addEventListener('change', (e) => {
+            const filterType = e.target.value;
+            const container = document.getElementById('entities-container');
+            
+            let allEntities = [];
+            crawledData.forEach(p => {
+                if (p.entities) {
+                    p.entities.forEach(e => {
+                        e.sourceUrl = p.url;
+                        allEntities.push(e);
+                    });
+                }
+            });
+
+            // Filter if needed
+            if (filterType) {
+                allEntities = allEntities.filter(e => e.type === filterType);
+            }
+
+            // Group by type
+            const groupedEntities = {};
+            allEntities.forEach(e => {
+                if (!groupedEntities[e.type]) groupedEntities[e.type] = [];
+                if (!groupedEntities[e.type].find(ex => ex.text === e.text)) {
+                    groupedEntities[e.type].push(e);
+                }
+            });
+
+            let html = '';
+            Object.keys(groupedEntities).sort().forEach(type => {
+                html += `<h5 class="mt-3 mb-2"><span class="badge bg-primary">${type}</span> <small class="text-muted">(${groupedEntities[type].length} unique)</small></h5>`;
+                html += '<div class="mb-2">';
+                groupedEntities[type].slice(0, 100).forEach(e => {
+                    html += `<span class="entity-tag" title="From: ${e.sourceUrl}">${e.text}</span>`;
+                });
+                if (groupedEntities[type].length > 100) {
+                    html += `<span class="text-muted">... and ${groupedEntities[type].length - 100} more</span>`;
+                }
+                html += '</div>';
+            });
+
+            container.innerHTML = html || '<p class="text-muted">No entities found</p>';
+        });
+
+        // Global search
+        document.getElementById('global-search')?.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            if (query.length < 2) {
+                updateDashboard();
+                return;
+            }
+
+            const filtered = crawledData.filter(p => 
+                (p.url && p.url.toLowerCase().includes(query)) ||
+                (p.title && p.title.toLowerCase().includes(query)) ||
+                (p.text && p.text.toLowerCase().includes(query))
+            );
+
+            // Temporarily show filtered results
+            const originalData = crawledData;
+            crawledData = filtered;
+            updateDashboard();
+            crawledData = originalData;
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>
+

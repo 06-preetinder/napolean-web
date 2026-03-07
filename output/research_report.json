@@ -1,0 +1,630 @@
+{
+  "metadata": {
+    "report_type": "AI Crawl Research Report",
+    "generated_at": "2026-03-07T16:13:52.733204",
+    "data_source": "output/crawled.json",
+    "total_pages": 148
+  },
+  "summary": {
+    "total_pages_crawled": 148,
+    "pages_with_content": 148,
+    "average_relevance_score": 0.0,
+    "total_entities_found": 3992,
+    "unique_entities": 739,
+    "total_keywords": 740,
+    "high_relevance_pages": 0,
+    "medium_relevance_pages": 0,
+    "low_relevance_pages": 148
+  },
+  "important_entities": [
+    {
+      "entity": "19",
+      "type": "CARDINAL",
+      "frequency": 90,
+      "appears_in_pages": 15,
+      "avg_page_relevance": 0.0,
+      "importance_score": 27.0
+    },
+    {
+      "entity": "first",
+      "type": "ORDINAL",
+      "frequency": 76,
+      "appears_in_pages": 7,
+      "avg_page_relevance": 0.0,
+      "importance_score": 22.8
+    },
+    {
+      "entity": "Scott Pilgrim's",
+      "type": "PERSON",
+      "frequency": 54,
+      "appears_in_pages": 11,
+      "avg_page_relevance": 0.0,
+      "importance_score": 16.2
+    },
+    {
+      "entity": "The Coming Woman",
+      "type": "ORG",
+      "frequency": 52,
+      "appears_in_pages": 11,
+      "avg_page_relevance": 0.0,
+      "importance_score": 15.6
+    },
+    {
+      "entity": "Sharp",
+      "type": "ORG",
+      "frequency": 42,
+      "appears_in_pages": 11,
+      "avg_page_relevance": 0.0,
+      "importance_score": 12.6
+    },
+    {
+      "entity": "Shakespeare",
+      "type": "PERSON",
+      "frequency": 42,
+      "appears_in_pages": 11,
+      "avg_page_relevance": 0.0,
+      "importance_score": 12.6
+    },
+    {
+      "entity": "Sapiens",
+      "type": "PERSON",
+      "frequency": 40,
+      "appears_in_pages": 11,
+      "avg_page_relevance": 0.0,
+      "importance_score": 12.0
+    },
+    {
+      "entity": "The Black Maria Â£52.15",
+      "type": "ORG",
+      "frequency": 40,
+      "appears_in_pages": 11,
+      "avg_page_relevance": 0.0,
+      "importance_score": 12.0
+    },
+    {
+      "entity": "The Boys",
+      "type": "WORK_OF_ART",
+      "frequency": 38,
+      "appears_in_pages": 10,
+      "avg_page_relevance": 0.0,
+      "importance_score": 11.4
+    },
+    {
+      "entity": "Starving Hearts (Triangular Trade",
+      "type": "ORG",
+      "frequency": 38,
+      "appears_in_pages": 10,
+      "avg_page_relevance": 0.0,
+      "importance_score": 11.4
+    },
+    {
+      "entity": "Rip",
+      "type": "PERSON",
+      "frequency": 38,
+      "appears_in_pages": 10,
+      "avg_page_relevance": 0.0,
+      "importance_score": 11.4
+    },
+    {
+      "entity": "The Requiem Red Â£22.65",
+      "type": "ORG",
+      "frequency": 34,
+      "appears_in_pages": 9,
+      "avg_page_relevance": 0.0,
+      "importance_score": 10.2
+    },
+    {
+      "entity": "Victoria Woodhull",
+      "type": "PERSON",
+      "frequency": 30,
+      "appears_in_pages": 1,
+      "avg_page_relevance": 0.0,
+      "importance_score": 9.0
+    },
+    {
+      "entity": "American",
+      "type": "NORP",
+      "frequency": 28,
+      "appears_in_pages": 4,
+      "avg_page_relevance": 0.0,
+      "importance_score": 8.4
+    },
+    {
+      "entity": "1",
+      "type": "CARDINAL",
+      "frequency": 28,
+      "appears_in_pages": 4,
+      "avg_page_relevance": 0.0,
+      "importance_score": 8.4
+    },
+    {
+      "entity": "today",
+      "type": "DATE",
+      "frequency": 24,
+      "appears_in_pages": 4,
+      "avg_page_relevance": 0.0,
+      "importance_score": 7.2
+    },
+    {
+      "entity": "20",
+      "type": "CARDINAL",
+      "frequency": 24,
+      "appears_in_pages": 4,
+      "avg_page_relevance": 0.0,
+      "importance_score": 7.2
+    },
+    {
+      "entity": "Sonnets",
+      "type": "NORP",
+      "frequency": 24,
+      "appears_in_pages": 1,
+      "avg_page_relevance": 0.0,
+      "importance_score": 7.2
+    },
+    {
+      "entity": "Camille",
+      "type": "PERSON",
+      "frequency": 20,
+      "appears_in_pages": 1,
+      "avg_page_relevance": 0.0,
+      "importance_score": 6.0
+    },
+    {
+      "entity": "Jess",
+      "type": "PERSON",
+      "frequency": 20,
+      "appears_in_pages": 1,
+      "avg_page_relevance": 0.0,
+      "importance_score": 6.0
+    }
+  ],
+  "key_insights": [
+    "Most frequently mentioned entities: '19', 'first', 'Scott Pilgrim's', 'The Coming Woman', 'Sapiens'",
+    "Primary topics identified: 'add basket', 'basket', 'stock add', 'basket shakespeare', 'stock'",
+    "Content quality is high: 148 out of 148 pages have extractable summaries.",
+    "Entity type distribution: PERSON(1062), ORG(916), WORK_OF_ART(626)"
+  ],
+  "top_pages": [
+    {
+      "url": "https://books.toscrape.com",
+      "title": "All products | Books to Scrape - Sandbox",
+      "relevance_score": 0.0,
+      "entities_count": 22,
+      "keywords": [
+        "add basket",
+        "basket set",
+        "basket",
+        "basket shakespeare",
+        "basket starving"
+      ],
+      "summary": "Warning! This is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning. A Light in the ... Â£51.77 In stock Add to basket Tipping the Velvet..."
+    },
+    {
+      "url": "https://books.toscrape.com/catalogue/category/books/parenting_28/index.html",
+      "title": "Parenting | \n     Books to Scrape - Sandbox",
+      "relevance_score": 0.0,
+      "entities_count": 0,
+      "keywords": [
+        "catastrophic happiness",
+        "happiness finding",
+        "finding joy",
+        "happiness",
+        "basket catastrophic"
+      ],
+      "summary": "Warning! This is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning. Catastrophic Happiness: Finding Joy ... Â£37.35 In stock Add to bask..."
+    },
+    {
+      "url": "https://books.toscrape.com/catalogue/category/books/mystery_3/index.html",
+      "title": "Mystery | \n     Books to Scrape - Sandbox",
+      "relevance_score": 0.0,
+      "entities_count": 36,
+      "keywords": [
+        "basket murder",
+        "basket poisonous",
+        "basket darkness",
+        "basket dark",
+        "basket widow"
+      ],
+      "summary": "Warning! This is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning. Sharp Objects Â£47.82 In stock Add to basket In a Dark, Dark ... Â£1..."
+    },
+    {
+      "url": "https://books.toscrape.com/catalogue/page-2.html",
+      "title": "All products | Books to Scrape - Sandbox",
+      "relevance_score": 0.0,
+      "entities_count": 35,
+      "keywords": [
+        "add basket",
+        "basket wall",
+        "basket bear",
+        "basket love",
+        "basket"
+      ],
+      "summary": "Warning! This is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning. In Her Wake Â£12.84 In stock Add to basket How Music Works Â£37.32 I..."
+    },
+    {
+      "url": "https://books.toscrape.com/catalogue/category/books/science_22/index.html",
+      "title": "Science | \n     Books to Scrape - Sandbox",
+      "relevance_score": 0.0,
+      "entities_count": 23,
+      "keywords": [
+        "add basket",
+        "basket elegant",
+        "basket diary",
+        "basket",
+        "basket surely"
+      ],
+      "summary": "Warning! This is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning. The Most Perfect Thing: ... Â£42.96 In stock Add to basket Immunity:..."
+    },
+    {
+      "url": "https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html",
+      "title": "A Light in the Attic | Books to Scrape - Sandbox",
+      "relevance_score": 0.0,
+      "entities_count": 27,
+      "keywords": [
+        "light attic",
+        "silverstein humorous",
+        "attic",
+        "attic classic",
+        "love silverstein"
+      ],
+      "summary": "A Light in the Attic Â£51.77 In stock (22 available) Warning! This is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning. Product Descrip..."
+    },
+    {
+      "url": "https://books.toscrape.com/catalogue/our-band-could-be-your-life-scenes-from-the-american-indie-underground-1981-1991_985/index.html",
+      "title": "Our Band Could Be Your Life: Scenes from the American Indie Underground, 1981-1991 | Books to Scrape - Sandbox",
+      "relevance_score": 0.0,
+      "entities_count": 38,
+      "keywords": [
+        "indie rock",
+        "band life",
+        "indie underground",
+        "american indie",
+        "punk rock"
+      ],
+      "summary": "Our Band Could Be Your Life: Scenes from the American Indie Underground, 1981-1991 Â£57.25 In stock (19 available) Warning! This is a demo website for web scraping purposes. Prices and ratings here we..."
+    },
+    {
+      "url": "https://books.toscrape.com/catalogue/category/books/contemporary_38/index.html",
+      "title": "Contemporary | \n     Books to Scrape - Sandbox",
+      "relevance_score": 0.0,
+      "entities_count": 2,
+      "keywords": [
+        "basket collided",
+        "basket like",
+        "basket",
+        "add basket",
+        "stock like"
+      ],
+      "summary": "Warning! This is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning. When We Collided Â£31.77 In stock Add to basket Someone Like You (Th..."
+    },
+    {
+      "url": "https://books.toscrape.com/catalogue/the-dirty-little-secrets-of-getting-your-dream-job_994/index.html",
+      "title": "The Dirty Little Secrets of Getting Your Dream Job | Books to Scrape - Sandbox",
+      "relevance_score": 0.0,
+      "entities_count": 39,
+      "keywords": [
+        "raskinâ dirty",
+        "don raskin",
+        "job offers",
+        "don raskinâ",
+        "expertise raskin"
+      ],
+      "summary": "The Dirty Little Secrets of Getting Your Dream Job Â£33.34 In stock (19 available) Warning! This is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no..."
+    },
+    {
+      "url": "https://books.toscrape.com/catalogue/category/books/religion_12/index.html",
+      "title": "Religion | \n     Books to Scrape - Sandbox",
+      "relevance_score": 0.0,
+      "entities_count": 6,
+      "keywords": [
+        "stock god",
+        "basket god",
+        "god unpleasant",
+        "basket book",
+        "add basket"
+      ],
+      "summary": "Warning! This is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning. Don't Be a Jerk: ... Â£37.97 In stock Add to basket You Are What You..."
+    }
+  ],
+  "entity_analysis": {
+    "ORG": {
+      "count": 916,
+      "unique": 180,
+      "top_mentions": {
+        "The Coming Woman": 52,
+        "Sharp": 42,
+        "The Black Maria Â£52.15": 40,
+        "Starving Hearts (Triangular Trade": 38,
+        "The Requiem Red Â£22.65": 34,
+        "un": 16,
+        "Product Information UPC": 14,
+        "Product Type Books Price": 12,
+        "Page 1 of 2": 10,
+        "House": 10
+      }
+    },
+    "PERSON": {
+      "count": 1062,
+      "unique": 188,
+      "top_mentions": {
+        "Scott Pilgrim's": 54,
+        "Shakespeare": 42,
+        "Sapiens": 40,
+        "Rip": 38,
+        "Victoria Woodhull": 30,
+        "Camille": 20,
+        "Jess": 20,
+        "William Shakespeare": 16,
+        "Silverstein": 12,
+        "Raskin": 12
+      }
+    },
+    "WORK_OF_ART": {
+      "count": 626,
+      "unique": 176,
+      "top_mentions": {
+        "The Boys": 38,
+        "Love": 12,
+        "A Light": 10,
+        "The Elephant Tree Â£23.82": 8,
+        "Can You Keep": 8,
+        "The Four Agreements: A": 6,
+        "The Girl": 6,
+        "The Past Never Ends Â£56.50": 4,
+        "The Murder of Roger": 4,
+        "Tastes Like Fear": 4
+      }
+    },
+    "GPE": {
+      "count": 208,
+      "unique": 40,
+      "top_mentions": {
+        "South Africa": 16,
+        "America": 12,
+        "Dark": 8,
+        "Canterbury": 8,
+        "Texas": 8,
+        "Singapore": 8,
+        "Zimbabwe": 8,
+        "Nepal": 8,
+        "France": 8,
+        "protÃ": 8
+      }
+    },
+    "FAC": {
+      "count": 36,
+      "unique": 11,
+      "top_mentions": {
+        "Black Flag": 4,
+        "Leicester Square": 4,
+        "The Great Railway Bazaar": 4,
+        "Les Fleurs": 4,
+        "Hate Fairyland": 4,
+        "Camp Midnight": 4,
+        "Stick": 4,
+        "Boar Island": 2,
+        "The Golden Condom": 2,
+        "The Golden Condom:": 2
+      }
+    },
+    "PRODUCT": {
+      "count": 14,
+      "unique": 6,
+      "top_mentions": {
+        "Candide Â£58.63": 4,
+        "The Last Mile": 2,
+        "M Train Â£27.18": 2,
+        "Â£59.64": 2,
+        "Voyager": 2,
+        "Voyager (": 2
+      }
+    },
+    "EVENT": {
+      "count": 70,
+      "unique": 15,
+      "top_mentions": {
+        "Olympic": 12,
+        "Paris Nights": 8,
+        "the Civil War": 8,
+        "World War I. Olio": 8,
+        "Black Dust Â£34.53": 4,
+        "National Poetry Series": 4,
+        "the 2011 TEDxNashville Conference": 4,
+        "Gun War": 4,
+        "the Great Depression": 4,
+        "A Paris Apartment": 4
+      }
+    },
+    "DATE": {
+      "count": 222,
+      "unique": 39,
+      "top_mentions": {
+        "today": 24,
+        "1936": 14,
+        "1883-1993):She": 8,
+        "the early 19th century": 8,
+        "the summer of 1977": 8,
+        "daily": 8,
+        "1872": 8,
+        "More than 140 years": 8,
+        "23 years old": 8,
+        "yearlong": 8
+      }
+    },
+    "CARDINAL": {
+      "count": 414,
+      "unique": 55,
+      "top_mentions": {
+        "19": 90,
+        "1": 28,
+        "20": 24,
+        "one": 16,
+        "29": 16,
+        "Fifty": 14,
+        "Seven": 12,
+        "two": 12,
+        "Three": 12,
+        "nine": 8
+      }
+    },
+    "NORP": {
+      "count": 190,
+      "unique": 25,
+      "top_mentions": {
+        "American": 28,
+        "Sonnets": 24,
+        "dans": 20,
+        "Attic": 10,
+        "Americans": 10,
+        "African American": 8,
+        "âMy": 8,
+        "Himalayan": 8,
+        "Italian": 8,
+        "British": 8
+      }
+    },
+    "ORDINAL": {
+      "count": 120,
+      "unique": 6,
+      "top_mentions": {
+        "first": 76,
+        "second": 16,
+        "20th": 8,
+        "14th": 8,
+        "First": 8,
+        "15th": 4
+      }
+    },
+    "LANGUAGE": {
+      "count": 8,
+      "unique": 1,
+      "top_mentions": {
+        "English": 8
+      }
+    },
+    "LOC": {
+      "count": 24,
+      "unique": 4,
+      "top_mentions": {
+        "Tybee Island": 8,
+        "Earth": 8,
+        "Cretan": 4,
+        "Sapiens": 4
+      }
+    },
+    "MONEY": {
+      "count": 52,
+      "unique": 8,
+      "top_mentions": {
+        "1": 12,
+        "2": 12,
+        "evolutionâa #1": 8,
+        "1.5": 4,
+        "Lux #1": 4,
+        "10": 4,
+        "4": 4,
+        "3": 4
+      }
+    },
+    "LAW": {
+      "count": 14,
+      "unique": 4,
+      "top_mentions": {
+        "the Equal Rights Amendment": 4,
+        "CHRoNiCLE 2": 4,
+        "HigherSelfie": 4,
+        "The Lean Startup": 2
+      }
+    },
+    "TIME": {
+      "count": 12,
+      "unique": 3,
+      "top_mentions": {
+        "Night": 4,
+        "Tonight": 4,
+        "Nights": 4
+      }
+    },
+    "PERCENT": {
+      "count": 4,
+      "unique": 1,
+      "top_mentions": {
+        "10%": 4
+      }
+    }
+  },
+  "topic_analysis": {
+    "total_keywords": 740,
+    "unique_keywords": 289,
+    "top_keywords": {
+      "add basket": 86,
+      "basket": 28,
+      "stock add": 10,
+      "basket shakespeare": 8,
+      "stock": 8,
+      "basket life": 8,
+      "basket set": 6,
+      "basket starving": 6,
+      "prices": 6,
+      "basket dark": 4,
+      "basket bear": 4,
+      "basket like": 4,
+      "basket 15": 4,
+      "basket art": 4,
+      "basket girl": 4,
+      "prices ratings": 4,
+      "catastrophic happiness": 2,
+      "happiness finding": 2,
+      "finding joy": 2,
+      "happiness": 2
+    },
+    "highest_scoring_keywords": [
+      [
+        "add basket",
+        0.0
+      ],
+      [
+        "basket set",
+        0.0
+      ],
+      [
+        "basket",
+        0.0
+      ],
+      [
+        "basket shakespeare",
+        0.0
+      ],
+      [
+        "basket starving",
+        0.0
+      ],
+      [
+        "catastrophic happiness",
+        0.0
+      ],
+      [
+        "happiness finding",
+        0.0
+      ],
+      [
+        "finding joy",
+        0.0
+      ],
+      [
+        "happiness",
+        0.0
+      ],
+      [
+        "basket catastrophic",
+        0.0
+      ]
+    ]
+  },
+  "url_analysis": {
+    "domains_crawled": {
+      "books.toscrape.com": 148
+    },
+    "total_domains": 1
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "summary": {
+    "total_findings": 22,
+    "by_severity": {
+      "info": 22
+    },
+    "by_type": {
+      "technology": 22
+    },
+    "technologies": [
+      "Angular"
+    ]
+  },
+  "findings": [
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com/catalogue/our-band-could-be-your-life-scenes-from-the-american-indie-underground-1981-1991_985/index.html"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com/catalogue/rip-it-up-and-start-again_986/index.html"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com/catalogue/shakespeares-sonnets_989/index.html"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com/catalogue/olio_984/index.html"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com/catalogue/category/books_1/index.html"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com/catalogue/scott-pilgrims-precious-little-life-scott-pilgrim-1_987/index.html"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com/index.html"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com/catalogue/set-me-free_988/index.html"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com/catalogue/category/books/default_15/index.html"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com/catalogue/starving-hearts-triangular-trade-trilogy-1_990/index.html"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com/catalogue/set-me-free_988/index.html"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com/index.html"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com/catalogue/olio_984/index.html"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com/catalogue/scott-pilgrims-precious-little-life-scott-pilgrim-1_987/index.html"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com/catalogue/category/books/default_15/index.html"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com/catalogue/our-band-could-be-your-life-scenes-from-the-american-indie-underground-1981-1991_985/index.html"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com/catalogue/shakespeares-sonnets_989/index.html"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com/catalogue/category/books_1/index.html"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com/catalogue/starving-hearts-triangular-trade-trilogy-1_990/index.html"
+    },
+    {
+      "type": "technology",
+      "severity": "info",
+      "title": "Technology Stack Detected",
+      "description": "Technologies found: Angular",
+      "url": "https://books.toscrape.com/catalogue/rip-it-up-and-start-again_986/index.html"
+    }
+  ],
+  "critical_findings": []
+}
