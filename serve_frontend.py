@@ -15,9 +15,11 @@ PORT = 8000
 os.chdir(os.path.join(os.path.dirname(__file__), 'output'))
 
 class Handler(http.server.SimpleHTTPRequestHandler):
-    def end_headers(self):
-        # Add CORS headers to allow any origin
-        self.send_header('Access-Control-Allow-Origin', '*')
+     def end_headers(self):
+        # Scoped to localhost only — this server can expose scan results and
+        # crawled data (including anything the security scanner flagged), so
+        # a wildcard origin would let any other open tab fetch it via CORS.
+        self.send_header('Access-Control-Allow-Origin', f'http://localhost:{PORT}')
         self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
         self.send_header('Cache-Control', 'no-store, no-cache, must-revalidate')
         return super().end_headers()
