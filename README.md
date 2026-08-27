@@ -1,8 +1,11 @@
 # Napoléon — AI-Powered Intelligent Web Crawler
 
+*It doesn't just collect pages — it understands them.*
+
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.8+-blue.svg" alt="Python Version">
   <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
+  <img src="https://img.shields.io/badge/status-active-brightgreen.svg" alt="Status">
 </p>
 
 ---
@@ -35,8 +38,9 @@ Napoléon does things differently:
 5. [Understanding the Output](#understanding-the-output)
 6. [Module Breakdown](#module-breakdown)
 7. [Project Structure](#project-structure)
-8. [Troubleshooting](#troubleshooting)
-9. [License](#license)
+8. [Recent Hardening](#recent-hardening)
+9. [Troubleshooting](#troubleshooting)
+10. [License](#license)
 
 ---
 
@@ -352,6 +356,17 @@ napolean-web/
 
 ---
 
+## Recent Hardening
+
+A few correctness and security fixes have been made to the crawler core:
+
+- **Domain validation** — link filtering now compares actual URL hosts rather than checking whether the base domain appears anywhere in the URL string, closing a bypass where a crafted redirect URL could slip past the same-domain restriction.
+- **`--method selenium` now leads, not just falls back** — previously, Selenium only engaged if a plain HTTP request returned completely empty HTML, so JS-rendered sites with a non-empty-but-content-poor shell (e.g. a bare `<div id="root">`) could silently skip Selenium even when explicitly requested.
+- **`--timeout` is now actually respected** — the flag was previously parsed but never passed through to the request layer.
+- **Local server CORS scoped to localhost** — `serve_frontend.py` no longer serves crawl and security-scan output with a wildcard `Access-Control-Allow-Origin`, which could otherwise let any other open browser tab read that data cross-origin while the server was running.
+
+---
+
 ## Troubleshooting
 
 ### Common Issues and Solutions
@@ -390,7 +405,7 @@ napolean-web/
 
 3. **Check Output First**: Open the JSON file to see what data looks like before generating graphs
 
-4. **Use --napleon-mode**: It adds fun Napoleon-themed messages that make the crawl more engaging
+4. **Use --napoleon-mode**: It adds fun Napoleon-themed messages that make the crawl more engaging
 
 5. **Explore the Graphs**: The HTML visualizations are interactive—zoom, pan, and click on nodes!
 
@@ -445,6 +460,4 @@ If you encounter issues:
 
 <p align="center">
   <sub>Built with ⚔️ and 🧠 — Vive l'Empereur!</sub>
-</sub>
 </p>
-
