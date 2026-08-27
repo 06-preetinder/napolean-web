@@ -58,12 +58,20 @@ def fetch_html_with_selenium(url , driver , wait=2):
         return None
 
 
-def validate_link(url , base_domain):
-    if not url.startswith(("https://" , "http://")):
+def validate_link(url, base_domain):
+    if not url.startswith(("https://", "http://")):
         return False
-    if base_domain not in url:
+    # Compare actual hosts, not substrings — "base_domain not in url" let a
+    # URL like https://evil.com/?to=https://example.com slip through before,
+    # since the target domain just had to appear anywhere in the string.
+    try:
+        url_host = urlparse(url).netloc.lower()
+        base_host = urlparse(base_domain).netloc.lower()
+    except Exception:
         return False
-    if url.endswith((".jpg",".json",".png",".exe",".pdf",".zip")):
+    if url_host != base_host:
+        return False
+    if url.endswith((".jpg", ".json", ".png", ".exe", ".pdf", ".zip")):
         return False
     return True
 
