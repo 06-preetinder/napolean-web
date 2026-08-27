@@ -145,7 +145,7 @@ def get_base_domain(url):
     parsed = urlparse(url)
     return f"{parsed.scheme}://{parsed.netloc}"
 
-def crawl(start_url, max_depth=10, use_selenium=False , storage=None , ai=None):
+def crawl(start_url, max_depth=10, use_selenium=False , storage=None , ai=None, timeout= DEFAULT_TIMEOUT):
     napoleon_banner()
     q = queue.Queue()
     visited = set()
@@ -168,12 +168,18 @@ def crawl(start_url, max_depth=10, use_selenium=False , storage=None , ai=None):
         print(f"\n🎖️ 'Forward! We advance to depth {depth} — {url}'")
         
         visited.add(url)
-        status, html = fetch_html_with_requests(url=url)
-        
+        # When selenium is explicitly requested, use it as the primary method
+        # rather than only falling back to it — otherwise a JS-heavy site
+        # whose plain-HTTP shell isn't literally empty (e.g. a bare React
+        # <div id="root">) never gets rendered even with --method selenium.
+        if use_selenium:
+            html = fetch_html_with_selenium(url, driver)
+        else:
+            status, html = fetch_html_with_requests(url=url , timeout = timeout)
+
         if not isinstance(html, str) or not html.strip():
-            if use_selenium:
-                
-                html = fetch_html_with_selenium(url, driver)
+            if not use_selenium:
+                html = fetch_html_with_selenium(url, driver) if driver else None
                 
         if not isinstance(html, str) or not html.strip():
             print(f"⚠️ 'The fortress {url} stands defiant — our scouts report failure.'")
@@ -314,7 +320,8 @@ def main():
             max_depth=args.depth,
             use_selenium=use_selenium,
             storage=storage,
-            ai=ai
+            ai=ai,
+            timeout=args.timeout
             )
 
         # Run security scan if requested
