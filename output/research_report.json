@@ -1,20 +1,20 @@
 {
   "metadata": {
     "report_type": "AI Crawl Research Report",
-    "generated_at": "2026-03-07T16:13:52.733204",
+    "generated_at": "2026-09-08T16:24:36.661463",
     "data_source": "output/crawled.json",
-    "total_pages": 148
+    "total_pages": 150
   },
   "summary": {
-    "total_pages_crawled": 148,
-    "pages_with_content": 148,
+    "total_pages_crawled": 150,
+    "pages_with_content": 150,
     "average_relevance_score": 0.0,
     "total_entities_found": 3992,
     "unique_entities": 739,
-    "total_keywords": 740,
+    "total_keywords": 750,
     "high_relevance_pages": 0,
     "medium_relevance_pages": 0,
-    "low_relevance_pages": 148
+    "low_relevance_pages": 150
   },
   "important_entities": [
     {
@@ -181,7 +181,7 @@
   "key_insights": [
     "Most frequently mentioned entities: '19', 'first', 'Scott Pilgrim's', 'The Coming Woman', 'Sapiens'",
     "Primary topics identified: 'add basket', 'basket', 'stock add', 'basket shakespeare', 'stock'",
-    "Content quality is high: 148 out of 148 pages have extractable summaries.",
+    "Content quality is high: 150 out of 150 pages have extractable summaries.",
     "Entity type distribution: PERSON(1062), ORG(916), WORK_OF_ART(626)"
   ],
   "top_pages": [
@@ -554,8 +554,8 @@
     }
   },
   "topic_analysis": {
-    "total_keywords": 740,
-    "unique_keywords": 289,
+    "total_keywords": 750,
+    "unique_keywords": 294,
     "top_keywords": {
       "add basket": 86,
       "basket": 28,
@@ -623,8 +623,9 @@
   },
   "url_analysis": {
     "domains_crawled": {
-      "books.toscrape.com": 148
+      "books.toscrape.com": 148,
+      "example.com": 2
     },
-    "total_domains": 1
+    "total_domains": 2
   }
 }

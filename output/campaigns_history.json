@@ -1,0 +1,26 @@
+[
+  {
+    "id": "campaign_1788864876",
+    "target_url": "https://example.com",
+    "intent": "",
+    "status": "completed",
+    "pages_crawled": 1,
+    "links_discovered": 0,
+    "entities_found": 0,
+    "threats_detected": 0,
+    "date": "2026-09-08 16:24",
+    "duration": 8.0
+  },
+  {
+    "id": "campaign_1788864835",
+    "target_url": "https://example.com",
+    "intent": "",
+    "status": "completed",
+    "pages_crawled": 1,
+    "links_discovered": 0,
+    "entities_found": 0,
+    "threats_detected": 0,
+    "date": "2026-09-08 16:23",
+    "duration": 8.6
+  }
+]

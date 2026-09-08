@@ -1,0 +1,22 @@
+{
+  "nodes": [
+    {
+      "id": "https://example.com",
+      "label": "example.com",
+      "title": "Example Domain",
+      "type": "page",
+      "entity_type": "",
+      "url": "https://example.com",
+      "relevance": 0.0,
+      "value": 0,
+      "size": 12,
+      "color": "#2c3e50"
+    }
+  ],
+  "edges": [],
+  "stats": {
+    "nodes": 1,
+    "edges": 0,
+    "graph_type": "crawl"
+  }
+}
