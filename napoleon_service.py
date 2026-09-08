@@ -14,6 +14,13 @@ import threading
 from urllib.parse import urlparse
 from datetime import datetime
 
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 # Local modules
 from data_extractor import extract_page_content
 from storage_manager import StorageManager
