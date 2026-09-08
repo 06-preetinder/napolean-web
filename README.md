@@ -61,24 +61,31 @@ Napoléon does things differently:
 
 ## Quick Start Guide
 
-### The Easiest Way to Start
+### 👑 The Imperial Web Suite (Recommended)
+
+Launch the full-fledged, vintage classic Napoleonic web application with embedded live terminal, visual campaign launcher, and lightweight 60 FPS interactive graphs:
 
 ```bash
-# 1. Clone or download the project
-# 2. Open your terminal/command prompt
-# 3. Navigate to the project folder
-
-# 4. Install dependencies
+# 1. Install dependencies
 pip install -r requirements.txt
 
-# 5. Download the English language model for AI processing
+# 2. Download the English language model
 python -m spacy download en_core_web_sm
 
-# 6. Run your first crawl!
-python Napolean.py --url https://example.com --depth 1 --save-json output/my_first_crawl.json
+# 3. Launch the Imperial Web Suite!
+python app.py
 ```
+*Your default browser will automatically open to `http://localhost:5000`. You never need to remember or type CLI commands! Simply paste the target URL, select your battle formation, and watch the campaign unfold in real-time.*
 
-That's it! Napoléon will crawl example.com to depth 1 and save the results to a JSON file.
+---
+
+### 💻 Standalone Command-Line Tool (CLI)
+
+Prefer the classic terminal? Napoléon remains 100% functional via command line:
+
+```bash
+python Napolean.py --url https://example.com --depth 2 --scan-security --generate-report --generate-graph
+```
 
 ---
 
