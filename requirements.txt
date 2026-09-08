@@ -12,3 +12,5 @@ aiohttp==3.9.5
 tqdm==4.66.1
 pyvis==0.14.3
 networkx==3.2.1
+Flask>=3.0.0
+flask-cors>=4.0.0
