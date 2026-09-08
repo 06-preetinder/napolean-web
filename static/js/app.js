@@ -136,9 +136,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------
     // Preset Battle Formations
     // -------------------------------------------------------------
-    document.querySelectorAll('.btn-preset').forEach(btn => {
+    document.querySelectorAll('.btn-formation, .btn-preset').forEach(btn => {
         btn.addEventListener('click', () => {
-            document.querySelectorAll('.btn-preset').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.btn-formation, .btn-preset').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
             const preset = btn.getAttribute('data-preset');
@@ -175,11 +175,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // -------------------------------------------------------------
-    // Terminal Stream & SSE
+    // Terminal Stream & SSE (Parchment Telegraph Roll)
     // -------------------------------------------------------------
     function appendTerminalLine(text, level = 'info') {
         const line = document.createElement('div');
-        line.className = `terminal-line ${level}`;
+        line.className = `telegraph-line ${level}`;
         line.innerText = text;
         terminalOutput.appendChild(line);
 
@@ -192,9 +192,10 @@ document.addEventListener('DOMContentLoaded', () => {
             terminalOutput.removeChild(terminalOutput.firstChild);
         }
 
-        // Sound cue
+        // Sound cue (telegraph click)
         if (level === 'gold') playAudioTone(659, 'triangle', 0.2);
         else if (level === 'danger') playAudioTone(220, 'sawtooth', 0.25);
+        else playAudioTone(980, 'sine', 0.03); // vintage telegraph click
     }
 
     function connectSSE() {
@@ -237,8 +238,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!st) return;
         const isRunning = st.status === 'running';
 
-        statusBulb.className = `status-indicator ${isRunning ? 'active' : 'idle'}`;
-        statusText.innerText = isRunning ? 'CAMPAIGN IN MOTION' : 'GARRISON IDLE';
+        if (statusBulb) statusBulb.className = `status-indicator ${isRunning ? 'active' : 'idle'}`;
+        if (statusText) statusText.innerText = isRunning ? 'CAMPAGNE EN COURS' : 'GARNISON EN ATTENTE';
 
         btnLaunch.disabled = isRunning;
         btnStop.disabled = !isRunning;
@@ -257,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Terminal Controls
     btnTermClear.addEventListener('click', () => {
-        terminalOutput.innerHTML = '<div class="terminal-line text-muted">Terminal cleared by operator.</div>';
+        terminalOutput.innerHTML = '<div class="telegraph-line muted">Dépêches rayées par l\'officier de garde.</div>';
     });
 
     btnTermAutoScroll.addEventListener('click', () => {
