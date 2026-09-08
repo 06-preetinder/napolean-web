@@ -1,649 +1,805 @@
 /* ==========================================================================
-   Napoléon Imperial Web Intelligence Suite - Vintage Classic War Room Theme
+   Napoléon — Quartier Général Impérial (1800s Authentic Vintage Cartography)
    ========================================================================== */
 
 :root {
-    /* Color Palette */
-    --imperial-bg: #0b121e;
-    --imperial-surface: #121c2d;
-    --imperial-surface-card: #16243a;
-    --imperial-border: #2c3d5a;
+    /* 1800s Antique Parchment & Ink Palette */
+    --parchment-light: #fbf7ee;
+    --parchment-base: #f3ebd9;
+    --parchment-aged: #e8dcbf;
+    --parchment-border: #caa96e;
+    --parchment-dark: #d8c7a3;
     
-    --gold-primary: #c5a059;
-    --gold-bright: #e7c77d;
-    --gold-glow: rgba(197, 160, 89, 0.25);
-    --gold-dark: #8c6d2d;
+    --ink-black: #1f1610;
+    --ink-sepia: #2f2118;
+    --ink-faded: #5a4536;
+    --ink-muted: #7d6550;
     
-    --crimson: #991b1b;
-    --crimson-light: #ef4444;
-    --crimson-bg: rgba(153, 27, 27, 0.2);
+    --wax-red: #8a171d;
+    --wax-red-bright: #a82027;
+    --wax-red-dark: #5e0d12;
+    --wax-shadow: rgba(94, 13, 18, 0.45);
     
-    --laurel-green: #15803d;
-    --laurel-light: #22c55e;
-    --laurel-bg: rgba(21, 128, 61, 0.2);
+    --brass-gold: #9d762f;
+    --brass-bright: #b88d3d;
+    --brass-dark: #6e511b;
+    --brass-foil: #cfab57;
     
-    --parchment: #f7f3e8;
-    --parchment-dark: #e8deca;
+    --map-water: #cadbdc;
+    --map-land: #ebe0ca;
     
-    --text-primary: #e6edf3;
-    --text-muted: #8b9bb4;
-    --text-gold: #e2c17c;
-    
-    /* Typography */
+    /* Vintage Classical Typography */
+    --font-imperial: 'Cinzel Decorative', 'Cinzel', serif;
     --font-heading: 'Cinzel', serif;
-    --font-serif: 'Playfair Display', serif;
-    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
+    --font-manuscript: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+    --font-typewriter: 'Special Elite', 'Courier Prime', Courier, monospace;
 }
 
-body.imperial-theme {
-    background-color: var(--imperial-bg);
-    color: var(--text-primary);
-    font-family: var(--font-body);
-    min-height: 100vh;
+/* Background Parchment Texture */
+body.vintage-parchment-theme {
+    background-color: #ede4ce;
     background-image: 
-        radial-gradient(circle at 15% 20%, rgba(197, 160, 89, 0.04) 0%, transparent 40%),
-        radial-gradient(circle at 85% 75%, rgba(44, 61, 90, 0.15) 0%, transparent 50%),
-        linear-gradient(180deg, #090f19 0%, #0b121e 100%);
-    background-attachment: fixed;
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.25) 0%, transparent 60%),
+        radial-gradient(circle at 10% 10%, rgba(138, 23, 29, 0.03) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(110, 81, 27, 0.05) 0%, transparent 50%),
+        linear-gradient(180deg, #f5eedc 0%, #ebe1c9 50%, #e2d4b7 100%);
+    color: var(--ink-sepia);
+    font-family: var(--font-manuscript);
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 18px;
+    min-height: 100vh;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-::-webkit-scrollbar-track {
-    background: #080d15;
-}
-::-webkit-scrollbar-thumb {
-    background: var(--gold-dark);
+/* Antique Outer Double Border Frame */
+.antique-border-frame {
+    border: 1px solid var(--parchment-border);
+    outline: 4px double var(--brass-gold);
+    outline-offset: -10px;
+    background: var(--parchment-base);
+    box-shadow: 
+        0 10px 40px rgba(50, 35, 20, 0.25),
+        inset 0 0 80px rgba(180, 150, 100, 0.25);
+    position: relative;
+    padding: 24px 18px;
     border-radius: 4px;
 }
-::-webkit-scrollbar-thumb:hover {
-    background: var(--gold-primary);
-}
 
-/* Typography Utilities */
-.gold-accent {
-    color: var(--gold-bright) !important;
-    text-shadow: 0 0 12px var(--gold-glow);
-}
-.text-gold {
-    color: var(--gold-bright) !important;
-}
-
-/* Header */
-.imperial-header {
-    background: linear-gradient(180deg, #131f32 0%, #0d1624 100%);
-    border-bottom: 2px solid var(--gold-dark);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-}
-
-.imperial-seal {
-    width: 46px;
-    height: 46px;
-    background: radial-gradient(circle, #dfb76c 0%, #8c6d2d 100%);
-    border: 2px solid #ffe29a;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #0b121e;
-    font-size: 22px;
-    box-shadow: 0 0 15px rgba(223, 183, 108, 0.4);
-}
-
-.imperial-title {
-    font-family: var(--font-heading);
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    line-height: 1.1;
-}
-
-.sub-emblem {
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: var(--gold-primary);
-    margin-left: 8px;
-}
-
-.imperial-tagline {
-    font-size: 12px;
-    color: var(--text-muted);
-    letter-spacing: 0.5px;
-}
-
-.military-status-badge {
-    background: rgba(18, 28, 45, 0.9);
-    border: 1px solid var(--imperial-border);
-    padding: 6px 14px;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    letter-spacing: 1px;
-    font-family: var(--font-mono);
-}
-
-.status-indicator {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    display: inline-block;
-}
-.status-indicator.idle {
-    background: #64748b;
-}
-.status-indicator.active {
-    background: var(--laurel-light);
-    box-shadow: 0 0 10px var(--laurel-light);
-    animation: pulse 1.5s infinite;
-}
-.status-indicator.threat {
-    background: var(--crimson-light);
-    box-shadow: 0 0 10px var(--crimson-light);
-    animation: pulse 0.8s infinite;
-}
-
-@keyframes pulse {
-    0% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(1.15); }
-    100% { opacity: 1; transform: scale(1); }
-}
-
-.imperial-clock {
-    color: var(--gold-bright);
-    font-size: 14px;
-    padding: 6px 12px;
-    background: #090e17;
-    border: 1px solid #1f2c42;
-    border-radius: 6px;
-}
-
-/* Stat Cards */
-.imperial-stat-card {
-    background: var(--imperial-surface);
-    border: 1px solid var(--imperial-border);
-    border-left: 4px solid var(--gold-primary);
-    border-radius: 8px;
-    padding: 14px 16px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
-}
-.imperial-stat-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--gold-bright);
-    box-shadow: 0 6px 20px rgba(197, 160, 89, 0.15);
-}
-.imperial-stat-card.threat {
-    border-left-color: var(--crimson-light);
-}
-.stat-icon {
-    width: 42px;
-    height: 42px;
-    background: rgba(197, 160, 89, 0.1);
-    border: 1px solid rgba(197, 160, 89, 0.3);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--gold-bright);
-    font-size: 18px;
-}
-.threat .stat-icon {
-    background: var(--crimson-bg);
-    border-color: rgba(239, 68, 68, 0.3);
-    color: var(--crimson-light);
-}
-.stat-val {
-    font-family: var(--font-mono);
-    font-size: 22px;
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.1;
-}
-.stat-lbl {
-    font-size: 11px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-/* Vintage Command Panel */
-.vintage-panel {
-    background: var(--imperial-surface);
-    border: 1px solid var(--imperial-border);
-    border-radius: 10px;
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.35);
-    position: relative;
-    overflow: hidden;
-}
-.vintage-panel::before {
-    content: '';
+/* Corner Flourishes */
+.corner-flourish {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold-bright), transparent);
+    font-size: 26px;
+    color: var(--brass-gold);
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6);
+    user-select: none;
+    z-index: 10;
 }
-.panel-header {
-    background: #0d1624;
-    border-bottom: 1px solid var(--imperial-border);
-    padding: 14px 20px;
-}
-.panel-title {
-    font-family: var(--font-heading);
-    font-size: 14px;
-    letter-spacing: 1.5px;
-    color: var(--gold-bright);
-}
-.panel-body {
-    padding: 20px;
-}
+.corner-flourish.top-left { top: 12px; left: 16px; }
+.corner-flourish.top-right { top: 12px; right: 16px; }
+.corner-flourish.bottom-left { bottom: 12px; left: 16px; }
+.corner-flourish.bottom-right { bottom: 12px; right: 16px; }
 
-/* Preset Buttons */
-.preset-label {
-    font-size: 12px;
-    color: var(--text-muted);
+/* Parchment Header */
+.parchment-header {
+    border-bottom: 2px solid var(--brass-gold);
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+.imperial-motto-top {
     font-family: var(--font-heading);
-}
-.btn-preset {
-    background: #0d1624;
-    border: 1px solid var(--imperial-border);
-    color: var(--text-primary);
     font-size: 12px;
-    padding: 4px 12px;
-    border-radius: 20px;
-    transition: all 0.2s;
-}
-.btn-preset:hover, .btn-preset.active {
-    background: rgba(197, 160, 89, 0.18);
-    border-color: var(--gold-bright);
-    color: var(--gold-bright);
-    box-shadow: 0 0 10px rgba(197, 160, 89, 0.2);
-}
-
-/* Form Controls */
-.imperial-label {
-    font-size: 12px;
+    letter-spacing: 4px;
+    color: var(--brass-dark);
     text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--gold-bright);
+    font-weight: 700;
+}
+.imperial-main-title {
+    font-family: var(--font-imperial);
+    font-size: 48px;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: var(--wax-red);
+    margin: 6px 0;
+    text-shadow: 1px 1px 0px #fff, 3px 3px 6px rgba(110, 20, 20, 0.2);
+}
+.imperial-subtitle {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--ink-faded);
+    text-transform: uppercase;
     font-weight: 600;
 }
-.form-hint {
-    font-size: 11px;
-    color: var(--text-muted);
-    margin-top: 4px;
+.filigree-line {
+    display: inline-block;
+    width: 140px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--brass-gold), transparent);
 }
-.vintage-input-group .input-group-text {
-    background: #0a101b;
-    border: 1px solid var(--imperial-border);
-    color: var(--gold-primary);
-}
-.vintage-input-group .form-control {
-    background: #0a101b;
-    border: 1px solid var(--imperial-border);
-    color: #fff;
-    font-family: var(--font-mono);
-    font-size: 14px;
-}
-.vintage-input-group .form-control:focus {
-    border-color: var(--gold-bright);
-    box-shadow: 0 0 10px rgba(197, 160, 89, 0.25);
-    background: #0d1522;
-    color: #fff;
-}
-.vintage-dropdown {
-    background: #0e1726;
-    border: 1px solid var(--gold-dark);
-}
-.vintage-dropdown .dropdown-item {
-    color: var(--text-primary);
-    font-size: 13px;
-    padding: 8px 16px;
-}
-.vintage-dropdown .dropdown-item:hover {
-    background: rgba(197, 160, 89, 0.2);
-    color: var(--gold-bright);
-}
-.vintage-select {
-    background-color: #0a101b;
-    border: 1px solid var(--imperial-border);
-    color: #fff;
-    font-size: 13px;
-}
-.vintage-select:focus {
-    background-color: #0d1522;
-    border-color: var(--gold-bright);
-    color: #fff;
-    box-shadow: 0 0 10px rgba(197, 160, 89, 0.25);
-}
-.vintage-range::-webkit-slider-thumb {
-    background: var(--gold-bright);
-    box-shadow: 0 0 10px var(--gold-bright);
-}
-.vintage-check .form-check-input {
-    background-color: #0a101b;
-    border-color: var(--imperial-border);
-}
-.vintage-check .form-check-input:checked {
-    background-color: var(--gold-primary);
-    border-color: var(--gold-bright);
-}
-.vintage-check .form-check-label {
-    font-size: 13px;
-    color: var(--text-primary);
-    cursor: pointer;
+.filigree-emblem {
+    color: var(--brass-gold);
+    font-size: 18px;
 }
 
-/* Live CLI Preview Box */
-.cli-preview-box {
-    background: #070c14;
-    border: 1px solid var(--gold-dark);
-    border-radius: 6px;
-    padding: 10px 14px;
+/* Wax Seal Stamp */
+.vintage-stamp-left {
+    position: absolute;
+    left: 20px;
+    top: 20px;
 }
-.cli-preview-header {
-    margin-bottom: 6px;
+.vintage-stamp-right {
+    position: absolute;
+    right: 20px;
+    top: 20px;
 }
-.cli-preview-text {
+.wax-seal {
+    width: 64px;
+    height: 64px;
+    background: radial-gradient(circle at 35% 35%, #b22830 0%, #801217 60%, #54080c 100%);
+    border-radius: 50%;
+    box-shadow: 
+        2px 4px 10px rgba(70, 10, 15, 0.4),
+        inset 1px 1px 2px rgba(255, 180, 180, 0.4),
+        inset -2px -2px 4px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: 3px dashed rgba(60, 5, 10, 0.6);
+}
+.wax-letter {
+    font-family: var(--font-imperial);
+    font-size: 32px;
+    font-weight: 900;
+    color: #ffd8d8;
+    text-shadow: 1px 1px 2px #3e0408, -1px -1px 1px rgba(255, 200, 200, 0.3);
+}
+
+.compass-stamp {
+    font-family: var(--font-heading);
+    font-size: 11px;
+    color: var(--brass-dark);
+    letter-spacing: 1px;
+    border: 1px solid var(--brass-gold);
+    padding: 8px 12px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: inset 0 0 10px rgba(180, 150, 100, 0.2);
+}
+.compass-stamp i {
+    font-size: 22px;
     display: block;
-    color: #a7f3d0;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    word-break: break-all;
+    margin-bottom: 2px;
+    color: var(--brass-gold);
 }
 
-/* Custom Buttons */
-.btn-gold-imperial {
-    background: linear-gradient(180deg, #dfb76c 0%, #a47d33 100%);
-    border: 1px solid #ffe29a;
-    color: #0b121e;
-    font-family: var(--font-heading);
+/* Ink Stamp Badges */
+.field-status-box {
+    border: 2px solid var(--wax-red);
+    padding: 4px 14px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.6);
+    transform: rotate(-1.5deg);
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+}
+.ink-stamp {
+    font-family: var(--font-typewriter);
+    font-size: 13px;
     font-weight: 700;
+    color: var(--wax-red);
     letter-spacing: 1px;
-    padding: 8px 24px;
-    box-shadow: 0 4px 15px rgba(223, 183, 108, 0.35);
-    transition: all 0.2s;
 }
-.btn-gold-imperial:hover:not(:disabled) {
-    background: linear-gradient(180deg, #eed08d 0%, #b88d3e 100%);
-    box-shadow: 0 6px 20px rgba(223, 183, 108, 0.55);
-    color: #000;
-    transform: translateY(-1px);
+.field-clock {
+    font-family: var(--font-typewriter);
+    font-size: 14px;
+    color: var(--ink-sepia);
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--parchment-border);
+    padding: 5px 12px;
+    border-radius: 3px;
 }
-.btn-outline-gold {
-    border: 1px solid var(--gold-dark);
-    color: var(--gold-bright);
-    background: transparent;
-    transition: all 0.2s;
+.btn-parchment-toggle {
+    border: 1px solid var(--brass-gold);
+    background: rgba(255, 255, 255, 0.5);
+    color: var(--brass-dark);
 }
-.btn-outline-gold:hover {
-    background: rgba(197, 160, 89, 0.18);
-    border-color: var(--gold-bright);
+.btn-parchment-toggle:hover {
+    background: var(--brass-bright);
     color: #fff;
 }
-.btn-danger-vintage {
-    background: linear-gradient(180deg, #991b1b 0%, #7f1d1d 100%);
-    border: 1px solid #ef4444;
-    color: #fff;
-    font-family: var(--font-heading);
-    letter-spacing: 1px;
-    padding: 8px 20px;
-    transition: all 0.2s;
-}
-.btn-danger-vintage:hover:not(:disabled) {
-    background: linear-gradient(180deg, #b91c1c 0%, #991b1b 100%);
-    box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
-}
-.btn-xs {
-    padding: 2px 8px;
-    font-size: 11px;
+
+/* Strategic Ledger Ribbon (Antique Counters) */
+.ledger-ribbon {
+    background: #f8f3e6;
+    border: 1px solid var(--parchment-border);
+    box-shadow: 0 4px 15px rgba(60, 45, 30, 0.08);
+    padding: 12px;
     border-radius: 4px;
 }
+.ledger-cell {
+    background: #fffdf7;
+    border: 1px solid #d8caa7;
+    border-top: 3px solid var(--brass-gold);
+    padding: 10px 14px;
+    border-radius: 2px;
+    transition: all 0.2s;
+}
+.ledger-cell:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(80, 60, 40, 0.12);
+}
+.ledger-cell.threat {
+    border-top-color: var(--wax-red);
+}
+.cell-label {
+    font-family: var(--font-heading);
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+}
+.cell-number {
+    font-family: var(--font-imperial);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--ink-black);
+    line-height: 1.1;
+    margin: 4px 0;
+}
+.threat .cell-number {
+    color: var(--wax-red);
+}
+.cell-sub {
+    font-size: 11px;
+    color: var(--ink-muted);
+    font-style: italic;
+}
 
-/* Tabs */
-.imperial-nav-tabs {
-    border-bottom: 2px solid var(--imperial-border);
+/* Campaign Commission Card */
+.campaign-commission-card {
+    background: #fdfaf2;
+    border: 1px solid var(--parchment-border);
+    outline: 2px solid #dfcfad;
+    outline-offset: -5px;
+    padding: 18px 24px;
+    border-radius: 3px;
+    box-shadow: 0 4px 20px rgba(50, 35, 20, 0.09);
+}
+.commission-header {
+    border-bottom: 2px solid #d8caa7;
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+}
+.wax-bullet {
+    color: var(--wax-red);
+    font-size: 20px;
+}
+.commission-title {
+    font-family: var(--font-heading);
+    font-size: 17px;
+    letter-spacing: 2px;
+    color: var(--ink-black);
+    font-weight: 700;
+}
+
+/* Battle Formations Buttons */
+.formation-label {
+    font-family: var(--font-heading);
+    font-size: 12px;
+    color: var(--ink-muted);
+}
+.btn-formation {
+    background: #f7efe0;
+    border: 1px solid #cbb892;
+    color: var(--ink-sepia);
+    font-family: var(--font-heading);
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 3px;
+    transition: all 0.2s;
+}
+.btn-formation:hover, .btn-formation.active {
+    background: #8a171d;
+    border-color: #5e0d12;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(138, 23, 29, 0.3);
+}
+
+/* Antique Inputs & Controls */
+.field-parchment-label {
+    font-family: var(--font-heading);
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--ink-black);
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+.field-hint {
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-style: italic;
+    margin-top: 4px;
+}
+.vintage-ink-group .input-group-text {
+    background: #eedebd;
+    border: 1px solid #cbb892;
+    color: var(--brass-dark);
+}
+.vintage-ink-group .form-control {
+    background: #fffdf9;
+    border: 1px solid #cbb892;
+    color: var(--ink-black);
+    font-family: var(--font-typewriter);
+    font-size: 14px;
+}
+.vintage-ink-group .form-control:focus {
+    background: #fff;
+    border-color: var(--wax-red);
+    box-shadow: 0 0 0 2px rgba(138, 23, 29, 0.15);
+    color: #000;
+}
+.btn-antique {
+    background: #eedebd;
+    border: 1px solid #cbb892;
+    color: var(--ink-sepia);
+    font-family: var(--font-heading);
+    font-size: 12px;
+}
+.btn-antique:hover, .btn-antique.active {
+    background: var(--brass-gold);
+    color: #fff;
+    border-color: var(--brass-dark);
+}
+.antique-dropdown {
+    background: #fdfaf2;
+    border: 1px solid var(--brass-gold);
+    box-shadow: 0 6px 20px rgba(50, 35, 20, 0.2);
+}
+.antique-dropdown .dropdown-item {
+    font-family: var(--font-manuscript);
+    font-size: 14px;
+    color: var(--ink-sepia);
+    padding: 8px 16px;
+}
+.antique-dropdown .dropdown-item:hover {
+    background: #eedebd;
+    color: var(--wax-red);
+}
+.antique-select {
+    background-color: #fffdf9;
+    border: 1px solid #cbb892;
+    color: var(--ink-sepia);
+    font-family: var(--font-manuscript);
+    font-size: 14px;
+}
+.antique-range::-webkit-slider-thumb {
+    background: var(--wax-red);
+    border: 2px solid #fff;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+}
+.antique-check .form-check-input {
+    border-color: #a8946e;
+    background-color: #fffdf9;
+}
+.antique-check .form-check-input:checked {
+    background-color: var(--wax-red);
+    border-color: var(--wax-red-dark);
+}
+.antique-check .form-check-label {
+    font-family: var(--font-manuscript);
+    font-size: 15px;
+    color: var(--ink-sepia);
+    font-weight: 600;
+}
+
+/* Stamped Cipher Slip */
+.cipher-slip {
+    background: #f5eedb;
+    border: 1px dashed var(--parchment-border);
+    padding: 10px 14px;
+    border-radius: 3px;
+}
+.cipher-slip-header {
+    margin-bottom: 6px;
+}
+.cipher-title {
+    font-family: var(--font-heading);
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--ink-faded);
+    text-transform: uppercase;
+}
+.cipher-text {
+    color: var(--ink-black);
+    font-size: 13px;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 6px 10px;
+    border: 1px solid #ded0b2;
+    border-radius: 2px;
+    word-break: break-all;
+}
+.font-typewriter {
+    font-family: var(--font-typewriter) !important;
+}
+
+/* Gilded Wax Seal Action Buttons */
+.btn-imperial-seal {
+    background: radial-gradient(circle at 40% 40%, #b22830 0%, #851319 70%, #580b0f 100%);
+    border: 2px solid #ffcece;
+    color: #fff;
+    font-family: var(--font-heading);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 10px 28px;
+    border-radius: 3px;
+    box-shadow: 0 4px 15px var(--wax-shadow);
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-imperial-seal:hover:not(:disabled) {
+    background: radial-gradient(circle at 40% 40%, #ca333c 0%, #981920 70%, #680f14 100%);
+    box-shadow: 0 6px 22px var(--wax-shadow);
+    color: #fff;
+    transform: translateY(-1px);
+}
+.btn-imperial-seal-sm {
+    background: var(--wax-red);
+    color: #fff;
+    border: 1px solid #5e0d12;
+    font-family: var(--font-heading);
+    font-size: 12px;
+    padding: 4px 12px;
+}
+.btn-retreat {
+    background: #ded0b2;
+    border: 1px solid #bba67a;
+    color: var(--ink-sepia);
+    font-family: var(--font-heading);
+    font-size: 13px;
+    padding: 10px 20px;
+}
+.btn-retreat:hover:not(:disabled) {
+    background: #8a171d;
+    color: #fff;
+}
+.btn-antique-seal {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--parchment-border);
+    color: var(--ink-sepia);
+    font-size: 11px;
+}
+
+/* War Folios Desk (Tabs) */
+.antique-nav-tabs {
+    border-bottom: 2px solid var(--brass-gold);
     gap: 4px;
 }
-.imperial-nav-tabs .nav-link {
-    background: #0e1726;
-    border: 1px solid var(--imperial-border);
+.antique-nav-tabs .nav-link {
+    background: #e8deca;
+    border: 1px solid #cbb892;
     border-bottom: none;
-    color: var(--text-muted);
+    color: var(--ink-faded);
     font-family: var(--font-heading);
     font-size: 13px;
     letter-spacing: 1px;
     padding: 10px 18px;
-    border-radius: 8px 8px 0 0;
+    border-radius: 4px 4px 0 0;
     transition: all 0.2s;
 }
-.imperial-nav-tabs .nav-link:hover {
-    color: var(--gold-bright);
-    border-color: var(--gold-dark);
+.antique-nav-tabs .nav-link:hover {
+    background: #f5ebd5;
+    color: var(--ink-black);
 }
-.imperial-nav-tabs .nav-link.active {
-    background: var(--imperial-surface);
-    color: var(--gold-bright);
-    border-color: var(--gold-bright) var(--gold-bright) transparent;
-    border-top-width: 3px;
+.antique-nav-tabs .nav-link.active {
+    background: #fffdf9;
+    color: var(--wax-red);
+    border-color: var(--brass-gold) var(--brass-gold) transparent;
+    border-top: 3px solid var(--wax-red);
+    font-weight: 700;
 }
-.imperial-tab-content {
-    background: var(--imperial-surface);
-    border: 1px solid var(--imperial-border);
-    border-top: none;
-    border-radius: 0 0 10px 10px;
-    padding: 24px;
-    min-height: 520px;
+.wax-count {
+    background: var(--wax-red);
+    color: #fff;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-family: var(--font-typewriter);
 }
 
-/* Embedded War Room Terminal */
-.terminal-wrapper {
-    background: #060a12;
-    border: 1px solid #1e2c44;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.8);
+.antique-tab-content {
+    background: #fffdf9;
+    border: 1px solid var(--parchment-border);
+    border-top: none;
+    padding: 24px;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 6px 25px rgba(50, 35, 20, 0.08);
+    min-height: 540px;
 }
-.terminal-toolbar {
-    background: #0d1522;
-    border-bottom: 1px solid #1e2c44;
-    padding: 8px 14px;
+
+/* Field Telegraph Terminal */
+.telegraph-machine {
+    background: #f7efe0;
+    border: 2px solid #caa96e;
+    outline: 2px double #bda069;
+    outline-offset: -5px;
+    border-radius: 3px;
+    box-shadow: inset 0 0 30px rgba(180, 150, 100, 0.2);
 }
-.window-dot {
-    width: 10px;
-    height: 10px;
+.telegraph-header {
+    background: linear-gradient(180deg, #d8caa7 0%, #c4b38d 100%);
+    border-bottom: 2px solid #a8946e;
+    padding: 8px 16px;
+}
+.brass-rivet {
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
+    background: radial-gradient(circle, #ffe29a 0%, #8c6d2d 100%);
     display: inline-block;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
-.window-dot.red { background: #ef4444; }
-.window-dot.yellow { background: #eab308; }
-.window-dot.green { background: #22c55e; }
-.terminal-title {
+.telegraph-title {
+    font-family: var(--font-heading);
     font-size: 11px;
-    color: var(--gold-bright);
-    letter-spacing: 1px;
-    font-family: var(--font-mono);
+    letter-spacing: 1.5px;
+    color: var(--ink-black);
+    font-weight: 700;
 }
-.terminal-body {
+.btn-telegraph-tool {
+    background: #efe3ca;
+    border: 1px solid #b8a379;
+    color: var(--ink-sepia);
+    font-family: var(--font-typewriter);
+    font-size: 11px;
+}
+.parchment-roll {
     height: 480px;
     overflow-y: auto;
-    padding: 16px;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    line-height: 1.6;
-    background: #05080e;
+    padding: 18px 24px;
+    font-family: var(--font-typewriter);
+    font-size: 13.5px;
+    line-height: 1.7;
+    background: 
+        repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(200, 180, 140, 0.15) 28px),
+        #fffdf7;
+    color: var(--ink-sepia);
 }
-.terminal-line {
+.telegraph-line {
     margin-bottom: 4px;
     word-break: break-all;
 }
-.terminal-line.gold {
-    color: var(--gold-bright);
-    font-weight: 600;
-}
-.terminal-line.info {
-    color: #cbd5e1;
-}
-.terminal-line.success {
-    color: #4ade80;
-}
-.terminal-line.warning {
-    color: #fbbf24;
-}
-.terminal-line.danger {
-    color: #f87171;
-    font-weight: 600;
-}
-.terminal-line.error {
-    color: #ef4444;
+.telegraph-line.gold {
+    color: #7a5010;
     font-weight: 700;
 }
+.telegraph-line.danger {
+    color: var(--wax-red);
+    font-weight: 700;
+}
+.telegraph-line.success {
+    color: #1b5e20;
+}
+.telegraph-line.warning {
+    color: #8c5b05;
+}
 
-/* Strategic Cartography (Graph) */
-.graph-workspace {
-    background: #070c14;
-    border: 1px solid var(--imperial-border);
-    border-radius: 8px;
-    overflow: hidden;
+/* Strategic Field Cartography (Graph Stage) */
+.cartography-desk {
+    background: #fbf7ee;
+    border: 1px solid var(--parchment-border);
+    border-radius: 3px;
 }
-.graph-control-bar {
-    background: #0c1421;
-    border-bottom: 1px solid var(--imperial-border);
-    padding: 10px 16px;
+.cartography-toolbar {
+    background: #ede2ca;
+    border-bottom: 1px solid #caa96e;
+    padding: 8px 16px;
 }
-.graph-stage-wrapper {
-    position: relative;
+.cartography-stage {
     height: 600px;
-    background: radial-gradient(circle, #0e1726 0%, #060a12 100%);
+    background: 
+        radial-gradient(circle at 50% 50%, #fffdf8 0%, #f4edd9 100%);
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #dfd0b2;
 }
-.vis-network-container {
+.compass-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, transparent 30%, rgba(180, 150, 100, 0.08) 70%);
+    border: 1px dashed rgba(160, 130, 80, 0.25);
+    border-radius: 50%;
+    pointer-events: none;
+}
+.vis-network-canvas {
     width: 100%;
     height: 100%;
 }
-.legend-dot {
-    width: 10px;
-    height: 10px;
+.map-dot {
+    width: 11px;
+    height: 11px;
     border-radius: 50%;
     display: inline-block;
-    margin-right: 4px;
 }
+.map-dot.page { background: #3b4d61; }
+.map-dot.high-rel { background: #2e7d32; }
+.map-dot.entity { background: #8a171d; }
 
-/* Node Inspector Drawer */
-.node-inspector-drawer {
+/* Scout Drawer */
+.scout-drawer {
     position: absolute;
     top: 0;
     right: 0;
     width: 380px;
     height: 100%;
-    background: rgba(14, 23, 38, 0.95);
-    backdrop-filter: blur(8px);
-    border-left: 1px solid var(--gold-dark);
-    box-shadow: -5px 0 25px rgba(0,0,0,0.6);
+    background: #fffdf8;
+    border-left: 2px solid var(--brass-gold);
+    box-shadow: -4px 0 25px rgba(60, 45, 30, 0.2);
     transform: translateX(100%);
     transition: transform 0.3s ease;
     z-index: 100;
     display: flex;
     flex-direction: column;
 }
-.node-inspector-drawer.open {
+.scout-drawer.open {
     transform: translateX(0);
 }
-.inspector-header {
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--imperial-border);
+.scout-header {
+    background: #ede1c8;
+    border-bottom: 1px solid var(--parchment-border);
+    padding: 14px 18px;
     font-family: var(--font-heading);
     letter-spacing: 1px;
 }
-.inspector-body {
-    padding: 16px;
+.btn-close-antique {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: var(--ink-faded);
+    line-height: 1;
+}
+.scout-body {
+    padding: 18px;
     overflow-y: auto;
     flex-grow: 1;
-    font-size: 13px;
 }
 
-/* Vintage Cards & Tables */
-.vintage-card {
-    background: #0d1522;
-    border: 1px solid var(--imperial-border);
-    border-radius: 8px;
-}
-.card-header-vintage {
-    background: #090f18;
-    border-bottom: 1px solid var(--imperial-border);
-    padding: 12px 16px;
+/* Manuscript Cards & Tables */
+.manuscript-heading {
     font-family: var(--font-heading);
-    font-size: 13px;
-    color: var(--gold-bright);
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: var(--ink-black);
+}
+.manuscript-card {
+    background: #fdfaf2;
+    border: 1px solid var(--parchment-border);
+    border-radius: 3px;
+}
+.manuscript-card-header {
+    background: #eedebd;
+    border-bottom: 1px solid #cbb892;
+    padding: 10px 16px;
+    font-family: var(--font-heading);
+    font-size: 12px;
+    color: var(--ink-black);
     letter-spacing: 1px;
 }
-.card-body-vintage {
+.manuscript-card-body {
     padding: 16px;
 }
-.vintage-table-wrapper {
-    background: #0a101b;
-    border: 1px solid var(--imperial-border);
-    border-radius: 8px;
+.antique-table-frame {
+    border: 1px solid #caa96e;
+    background: #fff;
 }
-.vintage-table th {
-    background: #0d1624;
-    color: var(--gold-bright);
+.antique-table th {
+    background: #eedebd;
+    color: var(--ink-black);
     font-family: var(--font-heading);
     font-size: 12px;
     letter-spacing: 1px;
-    border-bottom: 2px solid var(--imperial-border);
+    border-bottom: 2px solid #b8a379;
     padding: 12px 14px;
 }
-.vintage-table td {
-    background: transparent;
-    color: var(--text-primary);
-    border-bottom: 1px solid #152236;
+.antique-table td {
+    color: var(--ink-sepia);
+    border-bottom: 1px solid #e5d8be;
     padding: 12px 14px;
-    font-size: 13px;
+    font-size: 14px;
 }
-.vintage-table tr:hover td {
-    background: rgba(197, 160, 89, 0.05);
+.antique-table tr:hover td {
+    background: #f7eedb;
 }
 
-/* Badges */
-.badge-critical { background: #991b1b; color: #fff; font-weight: 700; }
-.badge-high { background: #ea580c; color: #fff; font-weight: 700; }
-.badge-medium { background: #ca8a04; color: #000; font-weight: 600; }
-.badge-info { background: #2563eb; color: #fff; }
-.badge-gold { background: rgba(197, 160, 89, 0.2); color: var(--gold-bright); border: 1px solid var(--gold-dark); }
+/* Gazette Card (19th century print look) */
+.gazette-card {
+    background: #fffefb;
+    border: 1px solid #cbb892;
+}
+.gazette-header {
+    background: #eedfbe;
+    border-bottom: 2px solid var(--brass-gold);
+    padding: 8px 16px;
+}
+.gazette-folio {
+    font-family: var(--font-heading);
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    color: var(--ink-black);
+    font-weight: 700;
+}
+.gazette-body {
+    padding: 16px;
+}
 
-/* Entity & Tech Tags */
+/* Vintage Tags */
 .vintage-tag {
     display: inline-flex;
     align-items: center;
-    background: #0c1421;
-    border: 1px solid var(--imperial-border);
-    border-radius: 16px;
-    padding: 4px 10px;
-    font-size: 12px;
+    background: #f4ecda;
+    border: 1px solid #cbb892;
+    border-radius: 2px;
+    padding: 3px 10px;
+    font-size: 13px;
     margin: 3px;
-    color: #cbd5e1;
-    transition: all 0.2s;
+    color: var(--ink-sepia);
+    font-family: var(--font-manuscript);
 }
-.vintage-tag:hover {
-    border-color: var(--gold-bright);
-    color: var(--gold-bright);
+
+/* Severity Badges (Wax Lacquer Style) */
+.badge-critical {
+    background: #8a171d !important;
+    color: #fff !important;
+    border: 1px solid #5e0d12;
+    font-family: var(--font-heading);
+    font-size: 11px;
 }
-.vintage-tag.entity-person { border-color: #60a5fa; color: #93c5fd; }
-.vintage-tag.entity-org { border-color: #f59e0b; color: #fcd34d; }
-.vintage-tag.entity-gpe { border-color: #34d399; color: #6ee7b7; }
+.badge-high {
+    background: #b24716 !important;
+    color: #fff !important;
+    font-family: var(--font-heading);
+    font-size: 11px;
+}
+.badge-medium {
+    background: #9d762f !important;
+    color: #fff !important;
+    font-family: var(--font-heading);
+    font-size: 11px;
+}
+.badge-info {
+    background: #3b4d61 !important;
+    color: #fff !important;
+    font-family: var(--font-heading);
+    font-size: 11px;
+}
+.badge-gold {
+    background: #eedebd !important;
+    color: var(--brass-dark) !important;
+    border: 1px solid var(--brass-gold);
+    font-family: var(--font-manuscript);
+    font-size: 12px;
+}
 
 /* Footer */
-.imperial-footer {
-    border-top: 1px solid #162234;
+.parchment-footer {
+    border-top: 1px solid var(--parchment-border);
+    margin-top: 20px;
+}
+.imperial-stamp-footer {
+    font-family: var(--font-heading);
     font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--brass-dark);
+}
+.footer-subtext {
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-style: italic;
 }
