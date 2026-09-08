@@ -53,6 +53,12 @@ SENSITIVE_DATA_PATTERNS = [
     (r"sk-[a-zA-Z0-9]{48,}", "OpenAI API Key"),
     (r"ghp_[a-zA-Z0-9]{36,}", "GitHub Token"),
     (r"xox[baprs]-[a-zA-Z0-9]{10,}", "Slack Token"),
+    (r"AIza[0-9A-Za-z\\-_]{35}", "Google API Key"),
+    (r"rk_live_[0-9a-zA-Z]{24,}", "Stripe Restricted Key"),
+    (r"sk_live_[0-9a-zA-Z]{24,}", "Stripe Secret Key"),
+    (r"-----BEGIN (RSA|EC|OPENSSH) PRIVATE KEY-----", "Private Key Block"),
+    (r"mongodb(?:\+srv)?:\/\/[^\s\"']+", "MongoDB Connection String"),
+    (r"postgres(?:ql)?:\/\/[^\s\"']+", "PostgreSQL Connection String"),
 ]
 
 TECHNOLOGY_SIGNATURES = {
