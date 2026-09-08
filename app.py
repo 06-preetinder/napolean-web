@@ -11,6 +11,14 @@ import time
 import queue
 import webbrowser
 import threading
+
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 from flask import Flask, render_template, request, jsonify, Response, send_from_directory
 from flask_cors import CORS
 
