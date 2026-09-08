@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Napoléon — Imperial Web Reconnaissance & Intelligence Suite</title>
+    
+    <!-- Google Fonts: Cinzel, Playfair Display, JetBrains Mono, Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <!-- Vis-Network CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.css" rel="stylesheet">
+    
+    <!-- Bespoke Napoleonic Vintage Stylesheet -->
+    <link rel="stylesheet" href="/static/css/napoleon.css">
+</head>
+<body class="imperial-theme">
+    <!-- Top Imperial Banner -->
+    <header class="imperial-header">
+        <div class="container-fluid px-4">
+            <div class="d-flex align-items-center justify-content-between py-2">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="imperial-seal">
+                        <i class="fa-solid fa-crown"></i>
+                    </div>
+                    <div>
+                        <div class="imperial-title">
+                            <span class="gold-accent">NAPOLÉON</span>
+                            <span class="sub-emblem">⚜️ L’EMPIRE DIGITAL ⚜️</span>
+                        </div>
+                        <div class="imperial-tagline">AI-Powered Strategic Reconnaissance, Cartography & Threat Intelligence</div>
+                    </div>
+                </div>
+                
+                <div class="d-flex align-items-center gap-3">
+                    <div class="military-status-badge" id="system-status-badge">
+                        <span class="status-indicator idle" id="status-bulb"></span>
+                        <span class="status-label" id="status-text">GARRISON IDLE</span>
+                    </div>
+                    <div class="imperial-clock font-monospace" id="imperial-clock">00:00:00</div>
+                    <button class="btn btn-sm btn-outline-gold" id="btn-sound-toggle" title="Toggle Sound Effects">
+                        <i class="fa-solid fa-volume-high" id="sound-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <div class="container-fluid px-4 py-3">
+        <!-- Top Metrics Ribbon -->
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="imperial-stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-flag"></i></div>
+                    <div class="stat-content">
+                        <div class="stat-val" id="metric-pages">0</div>
+                        <div class="stat-lbl">Territories Conquered</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="imperial-stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-route"></i></div>
+                    <div class="stat-content">
+                        <div class="stat-val" id="metric-links">0</div>
+                        <div class="stat-lbl">Passages Mapped</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="imperial-stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-layer-group"></i></div>
+                    <div class="stat-content">
+                        <div class="stat-val" id="metric-depth">0 / 0</div>
+                        <div class="stat-lbl">Campaign Depth</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="imperial-stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-brain"></i></div>
+                    <div class="stat-content">
+                        <div class="stat-val" id="metric-entities">0</div>
+                        <div class="stat-lbl">Entities Decoded</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="imperial-stat-card threat">
+                    <div class="stat-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div class="stat-content">
+                        <div class="stat-val" id="metric-threats">0</div>
+                        <div class="stat-lbl">Vulnerabilities Detected</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="imperial-stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+                    <div class="stat-content">
+                        <div class="stat-val" id="metric-speed">0.0</div>
+                        <div class="stat-lbl">Conquest Speed (p/s)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Strategy Headquarters: Campaign Launcher Panel -->
+        <div class="row g-4 mb-4">
+            <div class="col-12">
+                <div class="vintage-panel command-center">
+                    <div class="panel-header d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="gold-bullet">⚜️</span>
+                            <h5 class="panel-title mb-0">IMPERIAL WAR CABINET — STRATEGY & DISPATCH</h5>
+                        </div>
+                        <div class="quick-formations d-flex gap-2 align-items-center">
+                            <span class="preset-label">Battle Formations:</span>
+                            <button type="button" class="btn btn-preset" data-preset="swift">⚡ Swift Recon</button>
+                            <button type="button" class="btn btn-preset active" data-preset="conquest">🏰 Imperial Conquest</button>
+                            <button type="button" class="btn btn-preset" data-preset="siege">🛡️ Fortress Siege</button>
+                            <button type="button" class="btn btn-preset" data-preset="dossier">📜 Grand Dossier</button>
+                        </div>
+                    </div>
+                    
+                    <div class="panel-body">
+                        <form id="campaign-form">
+                            <!-- Row 1: URL & Intent -->
+                            <div class="row g-3 mb-3">
+                                <div class="col-lg-7">
+                                    <label class="form-label imperial-label">
+                                        <i class="fa-solid fa-crosshairs me-1"></i> Target Domain / Coordinate (URL)
+                                    </label>
+                                    <div class="input-group vintage-input-group">
+                                        <span class="input-group-text"><i class="fa-solid fa-globe"></i></span>
+                                        <input type="url" class="form-control" id="target-url" placeholder="https://example.com" value="https://example.com" required>
+                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Quick Targets
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end vintage-dropdown">
+                                            <li><a class="dropdown-item quick-target" href="#" data-url="https://example.com">Example.com (Instant Test)</a></li>
+                                            <li><a class="dropdown-item quick-target" href="#" data-url="https://quotes.toscrape.com">Quotes To Scrape (Multi-page)</a></li>
+                                            <li><a class="dropdown-item quick-target" href="#" data-url="https://news.ycombinator.com">Hacker News</a></li>
+                                            <li><a class="dropdown-item quick-target" href="#" data-url="https://wikipedia.org">Wikipedia (Vast Knowledge)</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="form-hint">Paste any destination URL. Napoleon will deploy scouts and map every corridor.</div>
+                                </div>
+                                <div class="col-lg-5">
+                                    <label class="form-label imperial-label">
+                                        <i class="fa-solid fa-compass me-1"></i> Campaign Intent / Intelligence Goal (Optional)
+                                    </label>
+                                    <div class="input-group vintage-input-group">
+                                        <span class="input-group-text"><i class="fa-solid fa-brain"></i></span>
+                                        <input type="text" class="form-control" id="campaign-intent" placeholder="e.g. security vulnerabilities, executive leadership, AI research">
+                                    </div>
+                                    <div class="form-hint">AI scoring prioritizes pages relevant to your objective.</div>
+                                </div>
+                            </div>
+
+                            <!-- Row 2: Strategy Controls & Module Toggles -->
+                            <div class="row g-3 align-items-center mb-3">
+                                <div class="col-md-3">
+                                    <label class="form-label imperial-label d-flex justify-content-between">
+                                        <span><i class="fa-solid fa-layer-group me-1"></i> Max Crawl Depth:</span>
+                                        <strong class="gold-accent" id="depth-val">2</strong>
+                                    </label>
+                                    <input type="range" class="form-range vintage-range" min="1" max="5" step="1" value="2" id="crawl-depth">
+                                    <div class="d-flex justify-content-between text-muted small font-monospace">
+                                        <span>1 (Fast)</span>
+                                        <span>2 (Balanced)</span>
+                                        <span>3</span>
+                                        <span>4</span>
+                                        <span>5 (Deep)</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="form-label imperial-label"><i class="fa-solid fa-horse me-1"></i> Reconnaissance Unit</label>
+                                    <select class="form-select vintage-select" id="recon-method">
+                                        <option value="requests" selected>Light Cavalry (Fast HTTP Requests)</option>
+                                        <option value="selenium">Heavy Artillery (Headless Chrome/Selenium)</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label imperial-label"><i class="fa-solid fa-gears me-1"></i> Intelligence Divisions Active</label>
+                                    <div class="d-flex flex-wrap gap-3 py-1">
+                                        <div class="form-check vintage-check">
+                                            <input class="form-check-input" type="checkbox" id="check-security" checked>
+                                            <label class="form-check-label" for="check-security">
+                                                <i class="fa-solid fa-shield-halved text-danger me-1"></i> Threat Scanner
+                                            </label>
+                                        </div>
+                                        <div class="form-check vintage-check">
+                                            <input class="form-check-input" type="checkbox" id="check-report" checked>
+                                            <label class="form-check-label" for="check-report">
+                                                <i class="fa-solid fa-file-invoice text-gold me-1"></i> Research Dossier
+                                            </label>
+                                        </div>
+                                        <div class="form-check vintage-check">
+                                            <input class="form-check-input" type="checkbox" id="check-graph" checked>
+                                            <label class="form-check-label" for="check-graph">
+                                                <i class="fa-solid fa-diagram-project text-info me-1"></i> Strategic Map
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Live CLI Generator Box -->
+                            <div class="cli-preview-box mb-3">
+                                <div class="cli-preview-header d-flex justify-content-between align-items-center">
+                                    <div class="small text-muted font-monospace">
+                                        <i class="fa-solid fa-terminal me-1 text-gold"></i> Live Command Generator (Auto-constructed from your options above):
+                                    </div>
+                                    <button type="button" class="btn btn-xs btn-outline-gold" id="btn-copy-cmd" title="Copy CLI Command">
+                                        <i class="fa-regular fa-copy me-1"></i> Copy Command
+                                    </button>
+                                </div>
+                                <code class="cli-preview-text" id="cli-command-preview">python Napolean.py --url https://example.com --depth 2 --method requests --scan-security --generate-report --generate-graph</code>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="d-flex justify-content-between align-items-center pt-2 border-top border-dark-subtle">
+                                <div class="text-muted small">
+                                    <i class="fa-solid fa-quote-left text-gold me-1"></i>
+                                    <em>"Take time to deliberate, but when the time for action has arrived, stop thinking and go in."</em>
+                                </div>
+                                <div class="d-flex gap-3">
+                                    <button type="button" class="btn btn-danger-vintage" id="btn-stop-campaign" disabled>
+                                        <i class="fa-solid fa-ban me-1"></i> Order Retreat
+                                    </button>
+                                    <button type="submit" class="btn btn-gold-imperial" id="btn-launch-campaign">
+                                        <i class="fa-solid fa-crown me-2"></i> Launch Campaign
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Imperial War Room Tabs -->
+        <div class="vintage-tabs-container">
+            <ul class="nav nav-tabs imperial-nav-tabs" id="warRoomTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="terminal-tab" data-bs-toggle="tab" data-bs-target="#terminal-pane" type="button" role="tab">
+                        <i class="fa-solid fa-terminal me-2"></i> Dispatches & Live Terminal
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="graph-tab" data-bs-toggle="tab" data-bs-target="#graph-pane" type="button" role="tab">
+                        <i class="fa-solid fa-map-location-dot me-2"></i> Strategic Cartography (Graph)
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="threats-tab" data-bs-toggle="tab" data-bs-target="#threats-pane" type="button" role="tab">
+                        <i class="fa-solid fa-shield-virus me-2"></i> Threat Reconnaissance <span class="badge bg-danger ms-1" id="threats-badge">0</span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="dossier-tab" data-bs-toggle="tab" data-bs-target="#dossier-pane" type="button" role="tab">
+                        <i class="fa-solid fa-scroll me-2"></i> Imperial Research Dossier
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="territories-tab" data-bs-toggle="tab" data-bs-target="#territories-pane" type="button" role="tab">
+                        <i class="fa-solid fa-book-atlas me-2"></i> Conquered Pages Index
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="archives-tab" data-bs-toggle="tab" data-bs-target="#archives-pane" type="button" role="tab">
+                        <i class="fa-solid fa-monument me-2"></i> Imperial Archives (History)
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content imperial-tab-content" id="warRoomTabContent">
+                <!-- TAB 1: LIVE TERMINAL & TELEGRAM DISPATCHES -->
+                <div class="tab-pane fade show active" id="terminal-pane" role="tabpanel">
+                    <div class="terminal-wrapper">
+                        <div class="terminal-toolbar d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="window-dot red"></span>
+                                <span class="window-dot yellow"></span>
+                                <span class="window-dot green"></span>
+                                <span class="terminal-title ms-2">NAPOLÉON TACTICAL CONSOLE — LIVE TELEGRAPH FEED</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <button class="btn btn-xs btn-outline-gold" id="btn-terminal-clear">
+                                    <i class="fa-solid fa-eraser me-1"></i> Clear
+                                </button>
+                                <button class="btn btn-xs btn-outline-gold" id="btn-terminal-autoscroll">
+                                    <i class="fa-solid fa-angles-down me-1"></i> Auto-Scroll: ON
+                                </button>
+                                <button class="btn btn-xs btn-outline-gold" id="btn-terminal-copy">
+                                    <i class="fa-regular fa-copy me-1"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                        <div class="terminal-body" id="terminal-output">
+                            <div class="terminal-line gold">⚜️ Napoléon Imperial Reconnaissance Terminal initialized.</div>
+                            <div class="terminal-line text-muted">Ready to receive orders. Configure targets above and click Launch Campaign.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: STRATEGIC CARTOGRAPHY (GRAPH VISUALIZER) -->
+                <div class="tab-pane fade" id="graph-pane" role="tabpanel">
+                    <div class="graph-workspace">
+                        <!-- Graph Control Bar -->
+                        <div class="graph-control-bar d-flex justify-content-between align-items-center flex-wrap gap-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-outline-gold active" id="btn-graph-unified">Unified Knowledge Map</button>
+                                    <button class="btn btn-outline-gold" id="btn-graph-crawl">Crawl Topology Only</button>
+                                    <button class="btn btn-outline-gold" id="btn-graph-entities">Entities Only</button>
+                                </div>
+                                <div class="input-group input-group-sm graph-search-box">
+                                    <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                    <input type="text" class="form-control" id="graph-search-input" placeholder="Search node or entity...">
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="graph-legend d-flex gap-2 align-items-center small">
+                                    <span><span class="legend-dot" style="background:#2c3e50"></span> Page</span>
+                                    <span><span class="legend-dot" style="background:#27ae60"></span> High Relevance</span>
+                                    <span><span class="legend-dot" style="background:#c5a059"></span> Decoded Entity</span>
+                                </div>
+                                <button class="btn btn-sm btn-outline-gold" id="btn-graph-fit" title="Fit Entire Map">
+                                    <i class="fa-solid fa-expand me-1"></i> Center
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Graph Canvas Container with Inspector Drawer -->
+                        <div class="graph-stage-wrapper position-relative">
+                            <div id="vis-network-container" class="vis-network-container"></div>
+                            
+                            <!-- Node Inspector Drawer (Slide-in) -->
+                            <div class="node-inspector-drawer" id="node-inspector">
+                                <div class="inspector-header d-flex justify-content-between align-items-center">
+                                    <h6 class="mb-0 text-gold" id="inspector-type">TERRITORY DETAILS</h6>
+                                    <button class="btn-close btn-close-white" id="btn-close-inspector"></button>
+                                </div>
+                                <div class="inspector-body" id="inspector-content">
+                                    <p class="text-muted">Click any node on the strategic map to inspect decoded intelligence.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: THREAT RECONNAISSANCE -->
+                <div class="tab-pane fade" id="threats-pane" role="tabpanel">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-8">
+                            <div class="d-flex align-items-center gap-2">
+                                <h5 class="panel-title mb-0">IDENTIFIED VULNERABILITIES & EXPOSURES</h5>
+                                <span class="badge bg-danger" id="threat-total-count">0 Detected</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <button class="btn btn-sm btn-outline-gold" id="btn-export-security">
+                                <i class="fa-solid fa-download me-1"></i> Export Security Report (JSON)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tech Stack Detected Badges -->
+                    <div class="card vintage-card mb-3">
+                        <div class="card-header-vintage">
+                            <i class="fa-solid fa-microchip me-1 text-gold"></i> Enemy Technology Stack Detected
+                        </div>
+                        <div class="card-body-vintage" id="tech-stack-container">
+                            <span class="text-muted">No technologies fingerprinted yet. Run a campaign to scan targets.</span>
+                        </div>
+                    </div>
+
+                    <!-- Vulnerabilities Table -->
+                    <div class="table-responsive vintage-table-wrapper">
+                        <table class="table vintage-table table-hover align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 110px;">Severity</th>
+                                    <th style="width: 140px;">Type</th>
+                                    <th>Finding Details</th>
+                                    <th>Target URL</th>
+                                </tr>
+                            </thead>
+                            <tbody id="threats-table-body">
+                                <tr>
+                                    <td colspan="4" class="text-center py-4 text-muted">
+                                        No vulnerabilities discovered yet. Launch a fortress siege to identify weaknesses.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 4: IMPERIAL RESEARCH DOSSIER -->
+                <div class="tab-pane fade" id="dossier-pane" role="tabpanel">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="panel-title mb-0">EXECUTIVE INTELLIGENCE BRIEFING</h5>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-gold" id="btn-export-dossier-json">
+                                <i class="fa-solid fa-file-code me-1"></i> Export JSON
+                            </button>
+                            <button class="btn btn-sm btn-gold-imperial" id="btn-export-dossier-md">
+                                <i class="fa-solid fa-file-lines me-1"></i> Export Markdown
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-lg-8">
+                            <!-- Executive Summary Card -->
+                            <div class="card vintage-card mb-4">
+                                <div class="card-header-vintage">
+                                    <i class="fa-solid fa-feather-pointed me-1 text-gold"></i> Executive Summary
+                                </div>
+                                <div class="card-body-vintage" id="dossier-summary-content">
+                                    <p class="text-muted">Campaign results will be summarized here once reconnaissance completes.</p>
+                                </div>
+                            </div>
+
+                            <!-- Top Scored Strategic Targets -->
+                            <div class="card vintage-card">
+                                <div class="card-header-vintage">
+                                    <i class="fa-solid fa-medal me-1 text-gold"></i> High-Relevance Dispatches
+                                </div>
+                                <div class="card-body-vintage p-0">
+                                    <div class="list-group list-group-flush vintage-list" id="dossier-top-pages">
+                                        <div class="list-group-item text-muted text-center py-3">No pages scored yet.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <!-- Key Decoded Entities -->
+                            <div class="card vintage-card mb-4">
+                                <div class="card-header-vintage">
+                                    <i class="fa-solid fa-fingerprint me-1 text-gold"></i> Decoded Entities & Persons
+                                </div>
+                                <div class="card-body-vintage" id="dossier-entities-cloud">
+                                    <span class="text-muted">Entities extracted via NLP will appear here.</span>
+                                </div>
+                            </div>
+
+                            <!-- Key Subject Matter Clusters -->
+                            <div class="card vintage-card">
+                                <div class="card-header-vintage">
+                                    <i class="fa-solid fa-tags me-1 text-gold"></i> Dominant Topic Clusters
+                                </div>
+                                <div class="card-body-vintage" id="dossier-topics-cloud">
+                                    <span class="text-muted">Key topics identified by KeyBERT model.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 5: CONQUERED PAGES INDEX -->
+                <div class="tab-pane fade" id="territories-pane" role="tabpanel">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="panel-title mb-0">INDEX OF CONQUERED TERRITORIES</h5>
+                        <div class="input-group input-group-sm" style="max-width: 320px;">
+                            <span class="input-group-text"><i class="fa-solid fa-filter"></i></span>
+                            <input type="text" class="form-control" id="territories-filter-input" placeholder="Filter pages by title or URL...">
+                        </div>
+                    </div>
+
+                    <div class="table-responsive vintage-table-wrapper">
+                        <table class="table vintage-table table-hover align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Page Title</th>
+                                    <th>URL Coordinates</th>
+                                    <th style="width: 140px;">Relevance</th>
+                                    <th>Entities Decoded</th>
+                                    <th>Emails / Secrets</th>
+                                </tr>
+                            </thead>
+                            <tbody id="territories-table-body">
+                                <tr>
+                                    <td colspan="5" class="text-center py-4 text-muted">
+                                        No pages indexed yet. Commence an imperial crawl above.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 6: IMPERIAL ARCHIVES (HISTORY) -->
+                <div class="tab-pane fade" id="archives-pane" role="tabpanel">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="panel-title mb-0">ANNALS OF PREVIOUS CAMPAIGNS</h5>
+                        <button class="btn btn-sm btn-outline-gold" id="btn-refresh-archives">
+                            <i class="fa-solid fa-rotate me-1"></i> Refresh Archives
+                        </button>
+                    </div>
+
+                    <div class="table-responsive vintage-table-wrapper">
+                        <table class="table vintage-table table-hover align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Campaign ID</th>
+                                    <th>Target URL</th>
+                                    <th>Objective Intent</th>
+                                    <th>Status</th>
+                                    <th>Territories</th>
+                                    <th>Threats</th>
+                                    <th>Date</th>
+                                    <th>Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody id="archives-table-body">
+                                <tr>
+                                    <td colspan="8" class="text-center py-4 text-muted">
+                                        No previous campaign annals recorded.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Imperial Footer -->
+    <footer class="imperial-footer py-3 text-center text-muted">
+        <div class="container">
+            <span class="gold-accent">⚜️ Napoléon Imperial Web Intelligence Suite</span> — Built with precision, honor, and strategic might.
+            <span class="ms-2">All rights reserved to Emperor Bonaparte & Preetinderjeet Singh.</span>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Vis-Network JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js"></script>
+    
+    <!-- Application Scripts -->
+    <script src="/static/js/graph_renderer.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
