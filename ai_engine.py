@@ -1,66 +1,117 @@
-from sentence_transformers import SentenceTransformer, util
-import spacy
-import re 
-import numpy as np 
+import re
+import numpy as np
 from collections import Counter
-from keybert import KeyBERT
+
+# Lazy ML placeholders
+SentenceTransformer = None
+spacy = None
+KeyBERT = None
 
 
 class NapoleanAI:
+    _shared_embedder = None
+    _shared_nlp = None
+    _shared_keyword_model = None
+    _ml_loaded = False
+
+    @classmethod
+    def _ensure_ml_libs(cls):
+        global SentenceTransformer, spacy, KeyBERT
+        if not cls._ml_loaded:
+            try:
+                from sentence_transformers import SentenceTransformer as _ST
+                import spacy as _spacy
+                from keybert import KeyBERT as _KB
+                SentenceTransformer = _ST
+                spacy = _spacy
+                KeyBERT = _KB
+                cls._ml_loaded = True
+            except Exception as e:
+                print(f"[AI] Error importing heavy ML libraries: {e}")
+
     def __init__(self, intent_text=None, intent_keywords=None):
-        print("[AI] Initializing NapoleanAI Engine...")
-        self.embedder = SentenceTransformer("all-MiniLM-L6-v2")
-        self.nlp = spacy.load("en_core_web_sm")
+        NapoleanAI._ensure_ml_libs()
         
-        self.keyword_model = KeyBERT(self.embedder)
+        # Load spaCy (fast & local)
+        if NapoleanAI._shared_nlp is None and spacy is not None:
+            try:
+                NapoleanAI._shared_nlp = spacy.load("en_core_web_sm")
+            except Exception as e:
+                print(f"[AI Warning] Could not load spacy en_core_web_sm: {e}")
+                NapoleanAI._shared_nlp = None
+
+        # Only load SentenceTransformer if an intent is actually specified!
+        if intent_text and NapoleanAI._shared_embedder is None and SentenceTransformer is not None:
+            print("[AI] Loading semantic embedding model for intent analysis...")
+            try:
+                NapoleanAI._shared_embedder = SentenceTransformer("all-MiniLM-L6-v2")
+            except Exception as e:
+                print(f"[AI Warning] SentenceTransformer fallback to keyword matching: {e}")
+                NapoleanAI._shared_embedder = None
+
+        if NapoleanAI._shared_keyword_model is None and NapoleanAI._shared_embedder is not None and KeyBERT is not None:
+            try:
+                NapoleanAI._shared_keyword_model = KeyBERT(NapoleanAI._shared_embedder)
+            except Exception:
+                NapoleanAI._shared_keyword_model = None
+
+        self.embedder = NapoleanAI._shared_embedder
+        self.nlp = NapoleanAI._shared_nlp
+        self.keyword_model = NapoleanAI._shared_keyword_model
 
         self.intent_text = intent_text
         self.intent_embedding = None
-        
-        # Enhanced: Intent keywords for multiple matching strategies
         self.intent_keywords = intent_keywords or []
+        
         if intent_text:
-            self.intent_embedding = self.embedder.encode(intent_text, convert_to_numpy=True)
-            # Extract keywords from intent for keyword matching
-            self.intent_keywords = self._extract_intent_keywords(intent_text)
-    
+            if self.embedder:
+                try:
+                    self.intent_embedding = self.embedder.encode(intent_text, convert_to_numpy=True)
+                except Exception:
+                    self.intent_embedding = None
+            if self.nlp:
+                self.intent_keywords = self._extract_intent_keywords(intent_text)
+            else:
+                self.intent_keywords = [w.lower() for w in intent_text.split() if len(w) > 3]
+
     def _extract_intent_keywords(self, text):
         """Extract keywords from intent text for multiple matching strategies"""
+        if not self.nlp:
+            return [w.lower() for w in text.split() if len(w) > 3]
         doc = self.nlp(text)
         keywords = set()
-        
-        # Get noun chunks and named entities
         for chunk in doc.noun_chunks:
             keywords.add(chunk.text.lower())
         for ent in doc.ents:
             keywords.add(ent.text.lower())
-        
-        # Also use KeyBERT for semantic keywords
-        try:
-            kw_list = self.keyword_model.extract_keywords(
-                text,
-                keyphrase_ngram_range=(1, 2),
-                stop_words="english",
-                top_n=10
-            )
-            for kw, _ in kw_list:
-                keywords.add(kw.lower())
-        except:
-            pass
-        
+        for token in doc:
+            if not token.is_stop and not token.is_punct and len(token.text) > 3:
+                keywords.add(token.lemma_.lower())
         return list(keywords)
-    
+
     def extract_keywords(self, text, top_n=5):
-        try:
-            keywords = self.keyword_model.extract_keywords(
-                text,
-                keyphrase_ngram_range=(1, 2),
-                stop_words="english",
-                top_n=top_n
-            )
-            return [kw[0] for kw in keywords]
-        except:
-            return []
+        if self.keyword_model:
+            try:
+                keywords = self.keyword_model.extract_keywords(
+                    text,
+                    keyphrase_ngram_range=(1, 2),
+                    stop_words="english",
+                    top_n=top_n
+                )
+                return [kw[0] for kw in keywords]
+            except Exception:
+                pass
+
+        # Fast NLP fallback (instant & high accuracy)
+        if self.nlp and text:
+            try:
+                doc = self.nlp(text[:2000])
+                words = [t.lemma_.lower() for t in doc if not t.is_stop and not t.is_punct and len(t.text) > 3]
+                counts = Counter(words)
+                return [w for w, _ in counts.most_common(top_n)]
+            except Exception:
+                pass
+        return []
 
     def get_page_embedding(self, text):
         return self.embedder.encode(text, convert_to_numpy=True)
