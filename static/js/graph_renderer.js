@@ -1,6 +1,6 @@
 /**
  * Napoléon Imperial Web Intelligence Suite
- * Lightweight, 60 FPS Graph Visualizer with Hardware Acceleration & Fast Physics Freezing
+ * 18th-Century Field Cartography Graph Renderer (Hardware-Accelerated 60 FPS)
  */
 
 class NapoleonGraphRenderer {
@@ -92,10 +92,10 @@ class NapoleonGraphRenderer {
         if (!filtered.nodes.length) {
             this.container.innerHTML = `
                 <div class="d-flex align-items-center justify-content-center h-100 text-muted">
-                    <div class="text-center">
-                        <i class="fa-solid fa-map-location-dot fa-3x mb-3 text-gold opacity-50"></i>
-                        <h5>No Cartographic Data Available</h5>
-                        <p class="small">Launch a campaign to explore the web topology and decode entities.</p>
+                    <div class="text-center p-4">
+                        <i class="fa-solid fa-compass-drafting fa-3x mb-3 text-sepia opacity-50"></i>
+                        <h4 class="font-heading text-sepia">Carte Vierge</h4>
+                        <p class="small font-italic">Ordonnez une reconnaissance pour dresser le réseau des bastions et tracer les voies.</p>
                     </div>
                 </div>
             `;
@@ -104,63 +104,88 @@ class NapoleonGraphRenderer {
 
         this.container.innerHTML = '';
 
+        // Apply vintage cartography styling to nodes & edges
+        const styledNodes = filtered.nodes.map(n => {
+            const isEntity = n.type === 'entity';
+            const isHighRel = (n.relevance || 0) > 0.6;
+            
+            let colorBg = '#3b4d61'; // Slate Iron Bastion
+            let colorBorder = '#253342';
+            if (isEntity) {
+                colorBg = '#8a171d'; // Crimson Wax Seal
+                colorBorder = '#5e0d12';
+            } else if (isHighRel) {
+                colorBg = '#2e7d32'; // Laurel Green
+                colorBorder = '#1b5e20';
+            }
+
+            return {
+                ...n,
+                color: {
+                    background: colorBg,
+                    border: colorBorder,
+                    highlight: { background: '#9d762f', border: '#6e511b' }
+                },
+                font: {
+                    color: '#1f1610', // Deep Sepia Iron Gall Ink
+                    face: 'Cormorant Garamond, serif',
+                    size: 13,
+                    bold: { color: '#000', size: 14 }
+                },
+                borderWidth: 2,
+                shadow: { enabled: true, color: 'rgba(80, 60, 40, 0.25)', size: 4, x: 2, y: 2 }
+            };
+        });
+
+        const styledEdges = filtered.edges.map(e => ({
+            ...e,
+            color: {
+                color: 'rgba(90, 69, 54, 0.45)', // Hand-drawn Sepia Ink line
+                highlight: '#8a171d',
+                hover: '#9d762f'
+            },
+            width: 1.4,
+            smooth: { type: 'continuous', roundness: 0.15 },
+            arrows: { to: { enabled: true, scaleFactor: 0.55 } }
+        }));
+
         const data = {
-            nodes: new vis.DataSet(filtered.nodes),
-            edges: new vis.DataSet(filtered.edges)
+            nodes: new vis.DataSet(styledNodes),
+            edges: new vis.DataSet(styledEdges)
         };
 
-        // Highly optimized options: instant stabilization + freeze physics to guarantee 60fps
+        // Pre-stabilized physics: freezes after 40 iterations for instant 60 FPS performance
         const options = {
-            nodes: {
-                font: {
-                    color: '#e2e8f0',
-                    face: 'Inter, sans-serif',
-                    size: 11
-                },
-                borderWidth: 1.5,
-                shadow: true
-            },
-            edges: {
-                smooth: {
-                    type: 'continuous',
-                    roundness: 0.15
-                },
-                arrows: {
-                    to: { enabled: true, scaleFactor: 0.5 }
-                }
-            },
             physics: {
                 enabled: true,
                 barnesHut: {
                     gravitationalConstant: -2200,
                     centralGravity: 0.25,
-                    springLength: 85,
+                    springLength: 90,
                     springConstant: 0.04,
                     damping: 0.12
                 },
                 stabilization: {
                     enabled: true,
-                    iterations: 40, // Fast stabilization: finishes in ~100ms
+                    iterations: 40,
                     updateInterval: 10
                 }
             },
             interaction: {
                 hover: true,
-                tooltipDelay: 100,
-                navigationButtons: false,
-                keyboard: false,
+                tooltipDelay: 120,
                 hideEdgesOnDrag: true
             }
         };
 
         this.network = new vis.Network(this.container, data, options);
 
-        // Turn off physics simulation after initial layout is computed to preserve battery & avoid lag!
+        // Turn off physics once stabilized to ensure zero-lag interactivity
         this.network.once('stabilizationIterationsDone', () => {
             this.network.setOptions({ physics: { enabled: false } });
         });
 
-        // Click node event -> Open Inspector Drawer
+        // Click node event -> Open Slide-out Scout Drawer
         this.network.on('click', (params) => {
             if (params.nodes && params.nodes.length > 0) {
                 const nodeId = params.nodes[0];
@@ -200,7 +225,7 @@ class NapoleonGraphRenderer {
 
         if (match) {
             this.network.focus(match.id, {
-                scale: 1.2,
+                scale: 1.3,
                 animation: { duration: 600, easingFunction: 'easeInOutQuad' }
             });
             this.network.selectNodes([match.id]);
@@ -216,51 +241,51 @@ class NapoleonGraphRenderer {
         if (!drawer || !content) return;
 
         const isEntity = node.type === 'entity';
-        titleHeader.innerText = isEntity ? `DECODED ENTITY (${node.entity_type || 'INTEL'})` : 'TERRITORY DISPATCH';
+        titleHeader.innerText = isEntity ? `ENTITÉ DÉCHIFFRÉE (${node.entity_type || 'INTEL'})` : "MÉMOIRE D'ÉCLAIREUR";
 
         let html = '';
         if (isEntity) {
             html = `
                 <div class="mb-3">
-                    <span class="badge badge-gold mb-2">${node.entity_type || 'ENTITY'}</span>
-                    <h5 class="text-white">${node.label}</h5>
+                    <span class="badge badge-critical mb-2 font-heading">${node.entity_type || 'ENTITÉ'}</span>
+                    <h4 class="text-ink">${node.label}</h4>
                 </div>
                 <div class="mb-3">
-                    <label class="imperial-label">Strategic Connections</label>
-                    <div class="text-muted small">Linked to ${node.value || 1} discovered page(s).</div>
+                    <label class="field-parchment-label">Ramifications Militaires</label>
+                    <div class="text-muted small">Rattaché à ${node.value || 1} bastion(s) exploré(s).</div>
                 </div>
             `;
         } else {
             const page = this.pageIndex[node.url] || this.pageIndex[node.id] || {};
-            const title = page.title || node.title || node.label || 'Untitled Territory';
+            const title = page.title || node.title || node.label || 'Bastion sans titre';
             const relevance = (node.relevance || page.relevance_score || 0).toFixed(2);
-            const summary = page.summary || 'No reconnaissance summary recorded for this coordinate.';
+            const summary = page.summary || "Aucun rapport d'observation rédigé pour ce bastion.";
             const emails = page.emails || [];
             const entities = page.entities || [];
 
             html = `
                 <div class="mb-3">
-                    <span class="badge ${relevance > 0.6 ? 'bg-success' : 'badge-gold'} mb-2">Relevance: ${relevance}</span>
-                    <h6 class="text-white">${title}</h6>
-                    <a href="${node.url}" target="_blank" class="small text-gold text-break font-monospace">
+                    <span class="badge ${relevance > 0.6 ? 'bg-success' : 'badge-gold'} mb-2">Valeur Tactique: ${relevance}</span>
+                    <h5 class="text-ink">${title}</h5>
+                    <a href="${node.url}" target="_blank" class="small text-danger text-break font-typewriter">
                         <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> ${node.url}
                     </a>
                 </div>
 
                 <div class="mb-3">
-                    <label class="imperial-label">Reconnaissance Summary</label>
-                    <p class="text-muted small">${summary}</p>
+                    <label class="field-parchment-label">Notes de Reconnaissance</label>
+                    <p class="text-muted small font-italic">${summary}</p>
                 </div>
 
                 ${emails.length ? `
                 <div class="mb-3">
-                    <label class="imperial-label text-danger">Exposed Communications (Emails)</label>
-                    <div>${emails.map(e => `<span class="badge bg-danger me-1 mb-1 font-monospace">${e}</span>`).join('')}</div>
+                    <label class="field-parchment-label text-danger">Correspondances Interceptées (Courriels)</label>
+                    <div>${emails.map(e => `<span class="badge badge-critical me-1 mb-1 font-typewriter">${e}</span>`).join('')}</div>
                 </div>` : ''}
 
                 ${entities.length ? `
                 <div class="mb-3">
-                    <label class="imperial-label">Extracted Entities</label>
+                    <label class="field-parchment-label">Personnages & Forces Détectés</label>
                     <div class="d-flex flex-wrap gap-1">
                         ${entities.slice(0, 10).map(e => `<span class="vintage-tag">${e.text}</span>`).join('')}
                     </div>
